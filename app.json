@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TecMessage",
-    "slug": "TecMessage",
+    "name": "expo-nativewind-typescript-boilerplate",
+    "slug": "expo-nativewind-typescript-boilerplate",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

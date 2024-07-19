@@ -1,5 +1,5 @@
 {
-  "name": "tecmessage",
+  "name": "expo-nativewind-typescript-boilerplate",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
