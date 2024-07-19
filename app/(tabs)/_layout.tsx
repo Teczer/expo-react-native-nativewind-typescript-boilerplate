@@ -1,5 +1,4 @@
 import { useColorScheme } from "nativewind";
-import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 
 import { Link, Tabs } from "expo-router";
 import Colors from "@/constants/Colors";
@@ -24,11 +23,11 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: false,
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,

@@ -1,8 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./app/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+    "./screens/**/*.{js,jsx,ts,tsx}",
+    "./Navigation.{js,jsx,ts,tsx}",
+  ],
   theme: {
     extend: {
+      fontFamily: {
+        mono: ["SpaceMono"],
+      },
       filter: {
         dropShadowDark: "drop-shadow(0 1px 1px rgb(255 255 255 / 1))",
         dropShadowLight: "drop-shadow(0 1px 1px rgb(0 0 0 / 1))",

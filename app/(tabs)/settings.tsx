@@ -1,35 +1,37 @@
-import { StyleSheet } from "react-native";
+import { useColorScheme } from "nativewind";
 
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
+import { Platform, Text, View } from "react-native";
+import ToggleTheme from "@/components/ToggleTheme";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 export default function TabTwoScreen() {
+  const { colorScheme, setColorScheme } = useColorScheme();
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
+    <SafeAreaView className="flex-1 pt-2 items-center justify-start bg-white dark:bg-black">
+      <Text className="text-xl font-bold text-dark dark:text-white">
+        Settings
+      </Text>
+      {/* THEME SETTINGS */}
       <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(tabs)/settings.tsx" />
-    </View>
+        className="flex w-full items-center justify-center my-10"
+        style={{ gap: 2 }}
+      >
+        <Text className="w-5/6 text-lg text-start text-dark dark:text-neutral-200 mb-4">
+          Theme Settings
+        </Text>
+        <ToggleTheme
+          colorScheme={colorScheme}
+          setColorScheme={setColorScheme}
+          theme="light"
+        />
+        <ToggleTheme
+          colorScheme={colorScheme}
+          setColorScheme={setColorScheme}
+          theme="dark"
+        />
+      </View>
+      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
