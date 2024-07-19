@@ -1,0 +1,8 @@
+node_modules
+android
+ios
+web
+.expo
+.vscode
+yarn.lock
+package-lock.json
