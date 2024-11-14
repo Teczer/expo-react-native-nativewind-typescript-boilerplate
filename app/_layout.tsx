@@ -10,6 +10,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { useColorScheme } from "nativewind";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import { Slot } from "expo-router";
+
+import "../global.css"
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -60,3 +63,4 @@ function RootLayoutNav() {
     </ThemeProvider>
   );
 }
+
