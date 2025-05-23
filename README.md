@@ -20,7 +20,7 @@ Developer experience first:
 ### Requirements
 
 - Node.js 14+ (recommended version: 18.x)
-- npm or (YARN IS VERY RECOMMENDED)
+- BUN + YARN IS VERY RECOMMENDED or npm 
 - [iOS Simulator](https://docs.expo.dev/workflow/ios-simulator/)
 - [Android Studio Emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
 
@@ -28,25 +28,26 @@ Developer experience first:
 
 Run the following command on your local environment:
 
-1. Clone the repository:
+1. Clone the repository and install dependencies :
    
 ```shell
 git clone --depth=1 https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate.git my-project-name
 cd my-project-name
-yarn
+bun install
 ```
 
-2. Then, you can run locally in development mode with live reload:
+2. Then, you have to prebuild the application for creating ios/android folders according to app.json
 
 ```shell
-yarn start
-# Or
-yarn ios
-# Or
-yarn android
+npx expo prebuild
 ```
 
-This will open the app in the iOS simulator or Android emulator.
+3. You can now start building the app and run locally in development mode with live reload :
+
+```shell
+bun ios  # or: bun android (--device can be helpful)
+bun start
+```
 
 ### Testing with Jest
 
