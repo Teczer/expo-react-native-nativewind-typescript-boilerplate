@@ -1,7 +1,13 @@
 {
-  "semi": true,
-  "singleQuote": false,
-  "trailingComma": "es5",
+  "printWidth": 120,
   "tabWidth": 2,
-  "printWidth": 80
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "no-return-assign": false,
+  "array-element-newline": false,
+  "object-curly-newline": false,
+  "bracketSameLine": false,
+  "arrowParens": "avoid"
 }

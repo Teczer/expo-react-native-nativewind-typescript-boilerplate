@@ -1,5 +1,6 @@
-import { View, Text } from "react-native";
-import { ExternalLink } from "@/components/ExternalLink";
+import { View, Text } from 'react-native';
+
+import { ExternalLink } from '@/components/ExternalLink';
 
 export default function TabOneScreen() {
   return (
@@ -12,8 +13,7 @@ export default function TabOneScreen() {
       <View className="mt-2 mx-5 items-center">
         <ExternalLink href="https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet">
           <Text className="text-center text-blue-500 dark:text-white">
-            Tap here if your app doesn't automatically update after making
-            changes
+            Tap here if your app doesn't automatically update after making changes
           </Text>
         </ExternalLink>
       </View>
