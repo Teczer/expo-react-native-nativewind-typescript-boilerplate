@@ -14,8 +14,7 @@
     "lint:fix": "bun run eslint ./app --fix",
     "format": "bun run prettier --write .",
     "format:check": "bun run prettier --check .",
-    "clean": "rm -rf node_modules; rm -rf ios/build; rm -rf ios/build; rm -rf ios/Pods; rm -rf ios/Podfile.lock; rm -rf ~/Library/Developer/Xcode/DerivedData/",
-    "clean:hard": "rm -rf node_modules; rm bun.lock; rm -rf ios; rm -rf android; rm -rf ~/Library/Developer/Xcode/DerivedData/"
+    "clean": "rm -rf node_modules; rm -rf ios/build; rm -rf ios/build; rm -rf ios/Pods; rm -rf ios/Podfile.lock; rm -rf ~/Library/Developer/Xcode/DerivedData/"
   },
   "jest": {
     "preset": "jest-expo"
@@ -23,6 +22,9 @@
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
     "@react-navigation/native": "^7.1.6",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "expo": "^53.0.9",
     "expo-font": "~13.3.1",
     "expo-linking": "~7.1.5",
@@ -45,7 +47,7 @@
     "@eslint/compat": "^1.1.1",
     "@eslint/js": "^9.7.0",
     "@types/react": "~19.0.10",
-    "eslint": "9.x",
+    "eslint": "^9.27.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.34.4",
