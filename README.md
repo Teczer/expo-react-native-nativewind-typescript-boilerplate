@@ -52,7 +52,7 @@ Contributions are welcome! If you find a bug or have suggestions for improvement
 
 ### License
 
-Licensed under the MIT License, Copyright © 2024
+Licensed under the MIT License, Copyright © 2025
 
 See [LICENSE](LICENSE) for more information.
 
