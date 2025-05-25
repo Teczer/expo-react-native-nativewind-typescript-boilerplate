@@ -1,6 +1,20 @@
-# Simple & Fast Starter for React Native, Expo, NativeWind, and TypeScript
-![](https://res.cloudinary.com/dw3mwclgk/image/upload/v1721761113/React_Native_Boilerplate_1_ekixp3.png)
+# Fast Expo App CLI
+
+[![NPM version][npm-image]][npm-url]
+[![Downloads][downloads-image]][npm-url]
+
+<p align="center">
+  Get started by running <b><code>npx fast-expo-app@latest</code></b>
+</p>
+
+## Simple & Fast Starter for Expo, Nativewind, and TypeScript
+
+![](https://res.cloudinary.com/dw3mwclgk/image/upload/v1748088179/FAST-EXPO-APP.png)
+<p align="center">
+<b>
 This boilerplate provides a fast and modern setup for building React Native applications with Expo, NativeWind, and TypeScript. It's designed to enhance developer experience and streamline your development process.a
+</b>
+</p>
 
 ### Features
 
@@ -11,10 +25,11 @@ Developer experience first:
 - 🔥 Type checking [TypeScript](https://www.typescriptlang.org)
 - 💎 Integrate with [NativeWind](https://www.nativewind.dev), Tailwind CSS for React Native
 - 🌜 Light/Dark mode already setup with toggle
+- 📊 MMKV (~30x faster than AsyncStorage and not Async usage)
 - 📁 File-based routing with Expo Router
 - 📏 Linter with [ESLint](https://eslint.org)
 - 💖 Code Formatter with [Prettier](https://prettier.io)
-- 🤡 Unit Testing with Jest 
+- 🤡 Unit Testing with Jest
 - 💡 Absolute Imports using `@` prefix
 
 ### Last Boilerplate Update
@@ -28,43 +43,8 @@ Developer experience first:
 
 ### Requirements
 
-- Node.js 14+ (recommended version: 18.x)
-- BUN + YARN IS VERY RECOMMENDED or npm 
-- [iOS Simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Android Studio Emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-
-### Getting started
-
-Run the following command on your local environment:
-
-1. Clone the repository and install dependencies :
-   
-```shell
-git clone --depth=1 https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate.git my-project-name
-cd my-project-name
-bun install
-```
-
-2. Then, you have to prebuild the application for creating ios/android folders according to app.json
-
-```shell
-npx expo prebuild
-```
-
-3. You can now start building the app and run locally in development mode with live reload :
-
-```shell
-bun ios  # or: bun android (--device can be helpful)
-bun start
-```
-
-### Testing with Jest
-
-To run the unit tests, run the following command:
-
-```shell
-yarn test
-```
+- Node.js 22+ (Recommended LTS)
+- BUN IS VERY RECOMMENDED
 
 ### Contributions
 
@@ -79,3 +59,7 @@ See [LICENSE](LICENSE) for more information.
 ---
 
 Made with ♥ by [Teczer](https://mehdihattou.com/)
+
+[downloads-image]: https://img.shields.io/npm/dm/fast-expo-app?color=364fc7&logoColor=364fc7
+[npm-url]: https://www.npmjs.com/package/fast-expo-app
+[npm-image]: https://img.shields.io/npm/v/fast-expo-app?color=0b7285&logoColor=0b7285
