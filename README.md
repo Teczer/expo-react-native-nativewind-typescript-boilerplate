@@ -10,9 +10,10 @@
 ## Simple & Fast Starter for Expo, Nativewind, and TypeScript
 
 ![](https://res.cloudinary.com/dw3mwclgk/image/upload/v1748088179/FAST-EXPO-APP.png)
+
 <p align="center">
 <b>
-This boilerplate provides a fast and modern setup for building React Native applications with Expo, NativeWind, and TypeScript. It's designed to enhance developer experience and streamline your development process.a
+This boilerplate provides a fast and modern setup for building React Native applications with Expo, NativeWind, and TypeScript. It's designed to enhance developer experience and streamline your development process.
 </b>
 </p>
 
@@ -25,25 +26,54 @@ Developer experience first:
 - 🔥 Type checking [TypeScript](https://www.typescriptlang.org)
 - 💎 Integrate with [NativeWind](https://www.nativewind.dev), Tailwind CSS for React Native
 - 🌜 Light/Dark mode already setup with toggle
-- 📊 MMKV (~30x faster than AsyncStorage and not Async usage)
+- 📊 MMKV v4 with Nitro Modules (~30x faster than AsyncStorage)
 - 📁 File-based routing with Expo Router
 - 📏 Linter with [ESLint](https://eslint.org)
 - 💖 Code Formatter with [Prettier](https://prettier.io)
 - 🤡 Unit Testing with Jest
 - 💡 Absolute Imports using `@` prefix
+- 🐛 Expo Dev Client for enhanced debugging
+- 📡 TanStack Query for powerful data fetching
+- 🏗️ New Architecture enabled (Fabric + TurboModules)
+
+### Debugging
+
+This boilerplate includes **Expo Dev Client** for enhanced debugging capabilities:
+
+- 🐛 **Custom Native Modules**: Test and debug native code changes without rebuilding
+- 🔍 **Advanced Dev Menu**: Access performance monitors, element inspectors, and more
+- ⚡ **Hot Reloading**: Faster development with instant code updates
+- 🌐 **Network Inspector**: Debug API calls and network requests
+
+**Using Expo Dev Client:**
+
+```bash
+# First build (includes native modules)
+bun run ios      # For iOS
+bun run android  # For Android
+
+# Daily development (faster)
+bun run dev
+```
+
+**Debug Menu Shortcuts:**
+
+- **iOS**: Shake device or `Cmd + D` in simulator
+- **Android**: Shake device or `Cmd + M` in emulator
 
 ### Last Boilerplate Update
 
-- ⚡ Expo SDK 53 (Including Expo Router 3.5, Expo UI...) + update all libraries
-- ⚛️ React Native 0.79 (Including New Arch, Android Edge-to-Edge...)
-- 💎 NativeWind 4.0
+- ⚡ Expo SDK 54 (Including Expo Router 6, Expo Dev Client...) + update all libraries
+- ⚛️ React Native 0.81 (Including New Arch, Android Edge-to-Edge...)
+- 💎 NativeWind 4.2
 - 🥟 Bun
+- 🐛 TanStack Query for data fetching
 
 ![](https://res.cloudinary.com/dw3mwclgk/image/upload/v1748011077/UPDATE.png)
 
 ### Requirements
 
-- Java 17+ 
+- Java 17+
 - Node.js 22+ (Recommended LTS)
 - BUN IS VERY RECOMMENDED
 
