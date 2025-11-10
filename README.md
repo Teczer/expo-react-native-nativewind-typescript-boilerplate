@@ -26,12 +26,15 @@ Developer experience first:
 - 🔥 Type checking [TypeScript](https://www.typescriptlang.org)
 - 💎 Integrate with [NativeWind](https://www.nativewind.dev), Tailwind CSS for React Native
 - 🌜 Light/Dark mode already setup with toggle
-- 📊 MMKV (~30x faster than AsyncStorage and not Async usage)
+- 📊 MMKV v4 with Nitro Modules (~30x faster than AsyncStorage)
 - 📁 File-based routing with Expo Router
 - 📏 Linter with [ESLint](https://eslint.org)
 - 💖 Code Formatter with [Prettier](https://prettier.io)
 - 🤡 Unit Testing with Jest
 - 💡 Absolute Imports using `@` prefix
+- 🐛 Expo Dev Client for enhanced debugging
+- 📡 TanStack Query for powerful data fetching
+- 🏗️ New Architecture enabled (Fabric + TurboModules)
 
 ### Debugging
 
