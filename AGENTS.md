@@ -31,6 +31,7 @@
 ✅ **TypeScript 5.9** with strict mode  
 ✅ **NativeWind v4** for Tailwind CSS styling  
 ✅ **Expo Router v6** for file-based routing  
+✅ **TanStack Query (React Query)** for data fetching  
 ✅ **MMKV v4** for ultra-fast storage (with Nitro Modules)  
 ✅ **Expo Dev Client** for custom native modules  
 ✅ **ESLint + Prettier** pre-configured  
@@ -52,6 +53,10 @@
 ### Navigation & Routing
 
 - **Expo Router**: v6 (File-based routing with typed routes)
+
+### Data Fetching
+
+- **TanStack Query**: v5.90.7 (Powerful data synchronization for React)
 
 ### Styling
 
@@ -91,7 +96,10 @@ expo-react-native-nativewind-typescript-boilerplate/
 ├── constants/                  # App constants
 │   └── Colors.ts
 ├── lib/                       # Libraries & utilities
+│   ├── hooks/                # Custom React Query hooks
+│   │   └── use-user.ts       # Example user hooks
 │   ├── mmkv.ts               # MMKV storage setup
+│   ├── query-client.ts       # React Query configuration
 │   └── utils.ts
 ├── assets/                    # Images, fonts, etc.
 ├── android/                   # Android native code
@@ -266,6 +274,86 @@ storage.remove('user.name');
 // Check if key exists
 const hasName = storage.contains('user.name');
 ```
+
+### TanStack Query (React Query)
+
+Powerful data fetching and state management for server state:
+
+**Query Example** (Fetching data):
+
+```tsx
+import { useUser } from '@/lib/hooks/use-user';
+
+export function UserProfile() {
+  const { data: user, isLoading, isError, error, refetch } = useUser(1);
+
+  if (isLoading) return <ActivityIndicator />;
+  if (isError) return <Text>Error: {error.message}</Text>;
+
+  return (
+    <View>
+      <Text>{user.name}</Text>
+      <Text>{user.email}</Text>
+    </View>
+  );
+}
+```
+
+**Mutation Example** (Updating data):
+
+```tsx
+import { useUpdateUser } from '@/lib/hooks/use-user';
+
+export function EditProfile() {
+  const { mutate: updateUser, isPending } = useUpdateUser();
+
+  const handleUpdate = () => {
+    updateUser(
+      { id: 1, name: 'New Name' },
+      {
+        onSuccess: () => {
+          console.log('Updated!');
+        },
+        onError: error => {
+          console.error('Failed:', error);
+        },
+      },
+    );
+  };
+
+  return (
+    <Pressable onPress={handleUpdate} disabled={isPending}>
+      <Text>Update Profile</Text>
+    </Pressable>
+  );
+}
+```
+
+**Custom Hook Pattern**:
+
+```tsx
+import { useQuery } from '@tanstack/react-query';
+
+export const useUser = (userId: number) => {
+  return useQuery({
+    queryKey: ['user', userId],
+    queryFn: async () => {
+      const response = await fetch(`/api/users/${userId}`);
+      return response.json();
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+};
+```
+
+**Benefits**:
+
+- ✅ Automatic caching and refetching
+- ✅ Background updates
+- ✅ Optimistic updates
+- ✅ Request deduplication
+- ✅ Pagination and infinite queries
+- ✅ Automatic retries on error
 
 ### Light/Dark Mode
 
