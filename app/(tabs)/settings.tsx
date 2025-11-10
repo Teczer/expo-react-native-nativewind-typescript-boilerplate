@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ToggleTheme from '@/components/ToggleTheme';
 
 export default function TabTwoScreen() {
-  const { colorScheme, setColorScheme } = useColorScheme();
+  const { colorScheme = 'light', setColorScheme } = useColorScheme();
   return (
     <SafeAreaView className="flex-1 pt-2 items-center justify-start bg-white dark:bg-black">
       <Text className="text-xl font-bold text-dark dark:text-white">Settings</Text>

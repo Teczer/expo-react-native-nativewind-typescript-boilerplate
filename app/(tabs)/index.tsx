@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ExternalLink } from '@/components/ExternalLink';
 
 export default function TabOneScreen() {
   return (
-    <View className="flex-1 items-center justify-center bg-white dark:bg-black">
+    <SafeAreaView className="flex-1 items-center justify-center bg-white dark:bg-black">
       <Text className="text-xl font-bold text-dark dark:text-white">Home</Text>
       <Text className="text-xs font-mono text-dark dark:text-white mt-4">
         Text with custom font (SpaceMono x NativeWind)
@@ -17,6 +18,6 @@ export default function TabOneScreen() {
           </Text>
         </ExternalLink>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
