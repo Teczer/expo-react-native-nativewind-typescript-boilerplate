@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "EXPO_USE_FAST_RESOLVER=1 bunx expo start -c",
+    "dev": "EXPO_USE_FAST_RESOLVER=1 bunx expo start --dev-client -c",
     "android": "bun expo run:android",
     "android:prebuild": "npx expo prebuild && bun expo run:android",
     "ios": "bun expo run:ios",
@@ -30,6 +31,7 @@
     "@react-navigation/native": "^7.1.6",
     "expo": "^54.0.23",
     "expo-constants": "~18.0.10",
+    "expo-dev-client": "~6.0.17",
     "expo-font": "~14.0.9",
     "expo-linking": "~8.0.8",
     "expo-router": "~6.0.14",
