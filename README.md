@@ -115,8 +115,9 @@ The landing page built with Next.js, showcasing the CLI and providing documentat
 
 ### Prerequisites
 
-- **Node.js 18+** (LTS recommended)
+- **Node.js 22+** (LTS recommended)
 - **Bun** (highly recommended) or npm
+- **Java 17+**
 - **Xcode** (for iOS development)
 - **Android Studio** (for Android development)
 
