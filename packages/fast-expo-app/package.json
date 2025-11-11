@@ -1,0 +1,54 @@
+{
+  "name": "fast-expo-app",
+  "version": "2.0.0",
+  "description": "CLI to create a new Expo app with TypeScript, NativeWind, and more",
+  "main": "dist/index.js",
+  "bin": {
+    "fast-expo-app": "./bin/fast-expo-app.js"
+  },
+  "scripts": {
+    "build": "tsc --project ../../cli/tsconfig.json && bun run copy-template",
+    "copy-template": "rm -rf templates && cp -r ../../cli/templates templates",
+    "dev": "tsc --project ../../cli/tsconfig.json --watch",
+    "publish": "npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate.git",
+    "directory": "packages/fast-expo-app"
+  },
+  "keywords": [
+    "expo",
+    "react-native",
+    "nativewind",
+    "typescript",
+    "cli",
+    "boilerplate"
+  ],
+  "author": "Teczer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate/issues"
+  },
+  "homepage": "https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate#readme",
+  "files": [
+    "dist",
+    "bin",
+    "templates",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "type": "module",
+  "dependencies": {
+    "inquirer": "^9.2.12",
+    "chalk": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

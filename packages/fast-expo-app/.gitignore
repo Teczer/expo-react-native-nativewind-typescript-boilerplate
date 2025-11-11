@@ -1,0 +1,9 @@
+# Build output
+dist/
+
+# Template copied from cli during build
+templates/
+
+# Dependencies (inherited from root .gitignore but explicit here)
+node_modules/
+

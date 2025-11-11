@@ -1,28 +1,31 @@
-# AGENTS.md - Fast Expo App Boilerplate
+# AGENTS.md - Fast Expo App Monorepo
 
 ## Table of Contents
 
 - [Project Overview](#project-overview)
-- [Tech Stack](#tech-stack)
+- [Monorepo Architecture](#monorepo-architecture)
 - [Project Structure](#project-structure)
+- [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
-- [Development](#development)
+- [Development Workflows](#development-workflows)
+- [Turborepo & Workspaces](#turborepo--workspaces)
+- [CLI Package](#cli-package)
+- [Template (Boilerplate)](#template-boilerplate)
+- [Website Package](#website-package)
+- [Optional Modules](#optional-modules)
 - [Coding Conventions](#coding-conventions)
-- [Key Features](#key-features)
-- [Scripts](#scripts)
+- [Scripts Reference](#scripts-reference)
 - [Best Practices](#best-practices)
 
 ---
 
 ## Project Overview
 
-**Fast Expo App** is a modern React Native boilerplate for building production-ready mobile applications quickly.
+**Fast Expo App** is a complete monorepo containing:
 
-- **Type**: Boilerplate/Starter Kit
-- **Package Manager**: Bun (recommended)
-- **Purpose**: Kickstart React Native development with best practices pre-configured
-- **Platforms**: iOS, Android, Web
-- **NPM Package**: `bunx fast-expo-app@latest` or `npx fast-expo-app@latest`
+1. A **CLI tool** (`fast-expo-app`) for scaffolding React Native projects
+2. A **production-ready boilerplate** with modern best practices
+3. A **landing website** to showcase the project
 
 ### What's Included
 
@@ -36,85 +39,168 @@
 ✅ **Expo Dev Client** for custom native modules  
 ✅ **ESLint + Prettier** pre-configured  
 ✅ **Jest** for testing  
-✅ **Light/Dark mode** ready to use
+✅ **Light/Dark mode** ready to use  
+✅ **Turborepo** for monorepo management
 
 ---
 
-## Tech Stack
+## Monorepo Architecture
 
-### Core
+This project follows the **create-expo-stack** architecture pattern with CLI source at the root level.
 
-- **React Native**: 0.81.5
-- **React**: 19.1.0
-- **Expo**: 54.0.23
-- **TypeScript**: 5.9.2
-- **Bun**: Recommended (faster than npm/yarn)
+### Key Design Decisions
 
-### Navigation & Routing
+1. **CLI source** in `/cli/` (not in packages) for easier development
+2. **Templates** in `/cli/templates/` for better organization
+3. **Modules** in `/cli/modules/` for future extensibility
+4. **Published package** in `/packages/fast-expo-app/`
+5. **Website** in `/www/` for marketing and documentation
 
-- **Expo Router**: v6 (File-based routing with typed routes)
+### Benefits
 
-### Data Fetching
-
-- **TanStack Query**: v5.90.7 (Powerful data synchronization for React)
-
-### Styling
-
-- **NativeWind**: v4.2.1 (TailwindCSS for React Native)
-- **Tailwind CSS**: v3.3.2
-
-### Storage & Performance
-
-- **MMKV**: v4.0.0 with Nitro Modules (~30x faster than AsyncStorage)
-- **React Native Reanimated**: v4.1.3
-- **React Native Worklets**: v0.5.1
-
-### Development
-
-- **Expo Dev Client**: v6.0.17 (Custom native modules support)
-- **ESLint**: v8.57.0
-- **Prettier**: v3.6.2
-- **Jest**: v29.7.0
+- 🎯 **Clean Separation** - CLI, template, and website are isolated
+- ⚡ **Fast Development** - Turborepo caching and parallel execution
+- 📦 **Easy Publishing** - Single package ready for npm
+- 🔧 **Extensible** - Easy to add new modules and features
+- 🌐 **Production Ready** - Includes landing page and documentation
 
 ---
 
 ## Project Structure
 
 ```
-expo-react-native-nativewind-typescript-boilerplate/
-├── app/                        # Expo Router routes (file-based)
-│   ├── _layout.tsx            # Root layout
-│   ├── (tabs)/                # Tab navigation
-│   │   ├── _layout.tsx
-│   │   ├── index.tsx          # Home screen
-│   │   └── settings.tsx       # Settings screen
-│   ├── modal.tsx              # Modal example
-│   └── +not-found.tsx         # 404 page
-├── components/                 # Reusable components
-│   ├── ExternalLink.tsx
-│   └── ToggleTheme.tsx
-├── constants/                  # App constants
-│   └── Colors.ts
-├── lib/                       # Libraries & utilities
-│   ├── hooks/                # Custom React Query hooks
-│   │   └── use-user.ts       # Example user hooks
-│   ├── mmkv.ts               # MMKV storage setup
-│   ├── query-client.ts       # React Query configuration
-│   └── utils.ts
-├── assets/                    # Images, fonts, etc.
-├── android/                   # Android native code
-├── ios/                       # iOS native code
-├── app.json                   # Expo config
-├── tailwind.config.js         # Tailwind config
-├── tsconfig.json              # TypeScript config
-└── package.json               # Dependencies
+fast-expo-app-monorepo/
+│
+├── cli/                          # 🛠️ CLI Source (root level)
+│   ├── src/
+│   │   └── index.ts              # CLI implementation
+│   ├── templates/
+│   │   └── base/                 # 📱 React Native Template
+│   │       ├── app/              # Expo Router routes
+│   │       ├── components/       # React components
+│   │       ├── lib/              # Utilities (MMKV, React Query)
+│   │       ├── constants/        # App constants
+│   │       ├── assets/           # Images, fonts
+│   │       ├── android/          # Android native
+│   │       ├── ios/              # iOS native
+│   │       ├── __tests__/        # Jest tests (optional)
+│   │       ├── app.json          # Expo config
+│   │       ├── package.json      # Template dependencies
+│   │       ├── tsconfig.json
+│   │       ├── tailwind.config.js
+│   │       ├── global.css
+│   │       └── README.md
+│   ├── modules/                  # 🔮 Future optional modules
+│   │   └── .gitkeep
+│   ├── tsconfig.json             # CLI TypeScript config
+│   └── README.md                 # CLI documentation
+│
+├── packages/
+│   └── fast-expo-app/            # 📦 Published NPM Package
+│       ├── bin/
+│       │   └── fast-expo-app.js  # Executable entry point
+│       ├── dist/                 # Compiled code (from /cli/src/)
+│       │   ├── index.js
+│       │   ├── index.d.ts
+│       │   └── *.map
+│       ├── package.json          # NPM package config
+│       ├── README.md             # Package documentation
+│       └── CHANGELOG.md          # Version history
+│
+├── www/                          # 🌐 Landing Website (Next.js)
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   └── global.css
+│   ├── components/
+│   │   ├── magicui/              # UI components
+│   │   ├── AnimatedBeams.tsx
+│   │   ├── OrbitingCircleDemo.tsx
+│   │   └── ...
+│   ├── public/
+│   ├── package.json
+│   ├── next.config.mjs
+│   ├── tailwind.config.ts
+│   └── tsconfig.json
+│
+├── scripts/                      # 🔧 Utility Scripts
+│   ├── get_started.sh            # Install all dependencies
+│   └── clean.sh                  # Clean build artifacts
+│
+├── package.json                  # Root monorepo config
+├── turbo.json                    # Turborepo configuration
+├── bun.lock                      # Bun lockfile
+├── AGENTS.md                     # Complete documentation for AI assistants
+├── CONTRIBUTING.md               # Contribution guide
+├── README.md                     # Main documentation
+├── QUICK_START.md                # Quick start guide
+└── LICENSE                       # MIT License
 ```
+
+### Workspace Configuration
+
+The monorepo is configured with **Bun workspaces** and **Turborepo**:
+
+```json
+{
+  "name": "fast-expo-app-monorepo",
+  "workspaces": ["www", "packages/fast-expo-app"]
+}
+```
+
+**Note**: The `/cli/` directory is NOT a workspace—it's the source that gets compiled into `packages/fast-expo-app/dist/`.
+
+---
+
+## Tech Stack
+
+### Core Stack (Always Included)
+
+- **React Native**: 0.81.5
+- **React**: 19.1.0
+- **Expo**: 54.0.23
+- **TypeScript**: 5.9.2
+- **Bun**: 1.2.14 (recommended)
+- **Turborepo**: 2.6.0
+
+### Navigation & Routing
+
+- **Expo Router**: v6 (File-based routing with typed routes)
+
+### Data Fetching (Optional)
+
+- **TanStack Query**: v5.90.7 (React Query)
+
+### Styling
+
+- **NativeWind**: v4.2.1 (TailwindCSS for React Native)
+- **Tailwind CSS**: v3.3.2
+
+### Storage & Performance (Optional)
+
+- **MMKV**: v4.0.0 with Nitro Modules (~30x faster than AsyncStorage)
+- **React Native Reanimated**: v4.1.3
+- **React Native Worklets**: v0.5.1
+
+### Development Tools
+
+- **Expo Dev Client**: v6.0.17 (optional)
+- **ESLint**: v8.57.0
+- **Prettier**: v3.6.2
+- **Jest**: v29.7.0 (optional)
+
+### Website Stack
+
+- **Next.js**: 15.5.6
+- **React**: 19.1.0
+- **Tailwind CSS**: 3.4.x
+- **TypeScript**: 5.9.2
 
 ---
 
 ## Getting Started
 
-### Installation
+### For End Users (Using the CLI)
 
 ```bash
 # Using bunx (recommended)
@@ -124,214 +210,459 @@ bunx fast-expo-app@latest
 npx fast-expo-app@latest
 ```
 
-### First Run
+The CLI will:
+
+1. Prompt for project name
+2. Ask which optional modules to include
+3. Copy the template from `/cli/templates/base/`
+4. Remove unselected modules
+5. Set up a fresh Git history
+
+### For Contributors (Development)
 
 ```bash
-# Install dependencies
-bun install
+# 1. Clone the repository
+git clone https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate.git
+cd expo-react-native-nativewind-typescript-boilerplate
 
-# Start development server
-bun run start
+# 2. Install all dependencies
+bun run get_started
+# This installs deps in: root, cli template, www, cli package
 
-# iOS
-bun run ios
+# 3. Build the CLI
+bun run build:cli
 
-# Android
-bun run android
+# 4. (Optional) Link CLI globally for testing
+cd packages/fast-expo-app
+bun link
+cd ../..
 
-# With Dev Client
-bun run dev
+# 5. Test the CLI
+fast-expo-app
 ```
 
 ---
 
-## Development
+## Development Workflows
 
 ### Available Scripts
 
+#### 🚀 Setup & Maintenance
+
 ```bash
-bun run start         # Start Metro bundler
-bun run dev          # Start with Expo Dev Client
-bun run ios          # Run on iOS simulator
-bun run android      # Run on Android emulator
-bun run web          # Run web version
-bun run test         # Run tests
-bun run lint         # Lint code
-bun run format       # Format code with Prettier
-bun run clean        # Clean build artifacts
+bun run get_started          # Install dependencies in all packages
+bun run clean                # Remove all node_modules and build artifacts
+bun run clean:cli            # Clean CLI package only
+bun run clean:www            # Clean website only
+bun run clean:template       # Clean template only
 ```
 
-### Development Workflow
+#### 🔨 Build
 
-1. **Make changes** to your code
-2. **Hot reload** updates automatically
-3. **Use Dev Client** for native module development
-4. **Test on device** for production validation
+```bash
+bun run build                # Build all packages (Turborepo)
+bun run build:cli            # Build CLI only (TypeScript compilation)
+bun run build:www            # Build website only (Next.js)
+```
 
-### Adding New Screens
+#### 💻 Development
 
-1. Create a file in `app/` directory:
+```bash
+bun run dev                  # Run all in dev mode (Turborepo)
+bun run dev:cli              # Watch CLI changes (TypeScript)
+bun run dev:www              # Run website dev server (Next.js)
+```
 
-   ```tsx
-   // app/profile.tsx
-   export default function ProfileScreen() {
-     return <View>...</View>;
-   }
-   ```
+#### 📱 Template Testing
 
-2. Navigate to it:
-   ```tsx
-   import { router } from 'expo-router';
-   router.push('/profile');
-   ```
+```bash
+bun run template:start       # Start Expo dev server in template
+bun run template:ios         # Run template on iOS simulator
+bun run template:android     # Run template on Android emulator
+```
+
+#### ✨ Code Quality
+
+```bash
+bun run format               # Format all files with Prettier
+bun run format:check         # Check formatting
+bun run lint                 # Run ESLint on all packages
+```
+
+### Workflow Examples
+
+#### Working on the CLI
+
+```bash
+# 1. Make changes to cli/src/index.ts
+# 2. Build
+bun run build:cli
+
+# 3. Test locally
+cd /tmp
+fast-expo-app  # (if linked globally)
+# or
+node packages/fast-expo-app/bin/fast-expo-app.js
+```
+
+#### Working on the Template
+
+```bash
+# 1. Navigate to template
+cd cli/templates/base
+
+# 2. Install dependencies (if needed)
+bun install
+
+# 3. Start Expo
+bun start
+
+# 4. Test changes
+# The CLI will copy these files when creating new projects
+```
+
+#### Working on the Website
+
+```bash
+# 1. Start dev server
+bun run dev:www
+
+# 2. Open http://localhost:3000
+
+# 3. Make changes (hot reload enabled)
+
+# 4. Build for production
+bun run build:www
+```
 
 ---
 
-## Coding Conventions
+## Turborepo & Workspaces
 
-### File Naming
+### Understanding Turborepo
 
-- **Components**: PascalCase (e.g., `UserProfile.tsx`)
-- **Utilities**: camelCase (e.g., `formatDate.ts`)
-- **Routes**: kebab-case (e.g., `user-profile.tsx`)
+Turborepo provides:
 
-### TypeScript
+- ⚡ **Parallel Execution** - Runs tasks simultaneously
+- 💾 **Smart Caching** - Skips redundant work
+- 📊 **Task Dependencies** - Ensures correct build order
+- 🔄 **Incremental Builds** - Only rebuilds what changed
 
-- Strict mode enabled
-- No implicit any
-- Explicit return types for functions
-- Use interfaces for object shapes
+### Configuration (turbo.json)
 
-### React Components
+```json
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "dist/**", "!.next/cache/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    }
+  }
+}
+```
 
-```tsx
-import { View, Text } from 'react-native';
+### Task Execution Flow
 
-interface CardProps {
-  title: string;
-  description?: string;
+When you run `bun run build`, Turborepo:
+
+```
+1. Reads turbo.json
+2. Analyzes workspace dependencies
+3. Builds packages/fast-expo-app (CLI)
+4. Builds www (website) in parallel
+5. Caches outputs
+6. Future builds reuse cache if nothing changed
+```
+
+---
+
+## CLI Package
+
+### How the CLI Works
+
+```typescript
+// cli/src/index.ts (simplified)
+
+import inquirer from 'inquirer';
+import fs from 'fs';
+import path from 'path';
+
+async function main() {
+  // 1. Prompt for project name
+  const { projectName } = await inquirer.prompt([...]);
+
+  // 2. Prompt for modules
+  const { modules } = await inquirer.prompt([
+    {
+      type: 'checkbox',
+      name: 'modules',
+      choices: [
+        { name: 'MMKV', value: 'mmkv', checked: true },
+        { name: 'React Query', value: 'react-query', checked: true },
+        { name: 'expo-dev-client', value: 'expo-dev-client', checked: true },
+        { name: 'Jest', value: 'jest', checked: true },
+      ],
+    },
+  ]);
+
+  // 3. Copy template from /cli/templates/base/
+  const templatePath = path.join(__dirname, '..', '..', '..', 'cli', 'templates', 'base');
+  const targetPath = path.join(process.cwd(), projectName);
+  copyFolderSync(templatePath, targetPath);
+
+  // 4. Remove unselected modules
+  const pkg = JSON.parse(fs.readFileSync(path.join(targetPath, 'package.json'), 'utf-8'));
+
+  if (!modules.includes('mmkv')) {
+    delete pkg.dependencies['react-native-mmkv'];
+    fs.rmSync(path.join(targetPath, 'lib', 'mmkv.ts'), { force: true });
+  }
+
+  if (!modules.includes('react-query')) {
+    delete pkg.dependencies['@tanstack/react-query'];
+    fs.rmSync(path.join(targetPath, 'lib', 'query-client.ts'), { force: true });
+    // Remove from _layout.tsx
+  }
+
+  // ... similar for other modules
+
+  // 5. Write updated package.json
+  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
+
+  // 6. Success message
+  console.log(`✅ Project "${projectName}" is ready!`);
 }
 
-export function Card(props: CardProps) {
-  const { title, description } = props;
+main();
+```
 
+### Publishing the CLI
+
+```bash
+# From packages/fast-expo-app/
+cd packages/fast-expo-app
+
+# Build
+bun run build
+
+# Publish to npm
+npm publish --access public
+
+# Or use version bump helper (if available)
+bun run publish:next        # Patch bump
+bun run publish:next minor  # Minor bump
+bun run publish:next major  # Major bump
+```
+
+---
+
+## Template (Boilerplate)
+
+### Template Structure
+
+The template lives in `/cli/templates/base/` and is what users get when running the CLI.
+
+```
+cli/templates/base/
+├── app/                      # Expo Router
+│   ├── _layout.tsx          # Root layout with providers
+│   ├── (tabs)/              # Tab navigation
+│   │   ├── _layout.tsx
+│   │   ├── index.tsx        # Home screen
+│   │   └── settings.tsx     # Settings screen
+│   ├── +not-found.tsx       # 404 page
+│   ├── +html.tsx            # HTML wrapper
+│   └── modal.tsx            # Modal example
+│
+├── components/
+│   ├── ExternalLink.tsx
+│   └── ToggleTheme.tsx
+│
+├── constants/
+│   └── Colors.ts
+│
+├── lib/
+│   ├── hooks/               # Custom React Query hooks
+│   ├── mmkv.ts              # MMKV storage (optional)
+│   ├── query-client.ts      # React Query config (optional)
+│   └── utils.ts
+│
+├── assets/
+│   ├── fonts/
+│   └── images/
+│
+├── android/                  # Android native
+├── ios/                      # iOS native
+│
+├── __tests__/                # Jest tests (optional)
+│   └── init.test.ts
+│
+├── app.json
+├── package.json
+├── tsconfig.json
+├── tailwind.config.js
+├── metro.config.js
+├── babel.config.js
+├── global.css
+├── .eslintrc.js
+├── .prettierrc
+└── README.md
+```
+
+### Key Template Files
+
+#### app/\_layout.tsx
+
+Root layout with optional providers:
+
+```tsx
+import { QueryClientProvider } from '@tanstack/react-query'; // Optional
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { queryClient } from '@/lib/query-client'; // Optional
+
+export default function RootLayout() {
   return (
-    <View className="p-4 bg-white rounded-lg">
-      <Text className="text-lg font-bold">{title}</Text>
-      {description && <Text className="text-sm">{description}</Text>}
-    </View>
+    <QueryClientProvider client={queryClient}>
+      {' '}
+      {/* Optional */}
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          </Stack>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }
 ```
 
-### Styling with NativeWind
+#### package.json Scripts
 
-```tsx
-// Basic styling
-<View className="flex-1 items-center justify-center bg-white dark:bg-black">
-  <Text className="text-xl font-bold">Hello World</Text>
-</View>
-
-// Conditional styling
-<View className={`p-4 ${isActive ? 'bg-blue-500' : 'bg-gray-500'}`}>
-  <Text>Content</Text>
-</View>
+```json
+{
+  "scripts": {
+    "start": "EXPO_USE_FAST_RESOLVER=1 bunx expo start -c",
+    "dev": "EXPO_USE_FAST_RESOLVER=1 bunx expo start --dev-client -c",
+    "android": "bunx expo run:android",
+    "ios": "bunx expo run:ios",
+    "web": "bunx expo start --web",
+    "test": "jest",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "clean": "rm -rf node_modules/.cache .expo && bun expo start --clear"
+  }
+}
 ```
-
-### Code Best Practices
-
-✅ **Use named exports** instead of default exports  
-✅ **Destructure props** inside component body  
-✅ **Use TypeScript** for all new code  
-✅ **Keep components small** and focused  
-✅ **Use hooks** for stateful logic  
-✅ **Avoid inline styles** - use NativeWind classes
 
 ---
 
-## Key Features
+## Website Package
 
-### MMKV Storage
+Located in `/www/`, this is a Next.js 15 application serving as the landing page.
 
-Ultra-fast persistent storage (~30x faster than AsyncStorage):
+### Key Features
 
-```tsx
+- 🎨 **Modern UI** with Tailwind CSS
+- ✨ **Animated components** (Framer Motion, Magic UI)
+- 📱 **Responsive design**
+- 🌙 **Dark mode support**
+- 🚀 **Fast deployment** on Vercel
+
+### Structure
+
+```
+www/
+├── app/
+│   ├── layout.tsx           # Root layout
+│   ├── page.tsx             # Home page
+│   ├── favicon.ico
+│   └── global.css
+│
+├── components/
+│   ├── magicui/             # Magic UI components
+│   ├── ui/                  # Shadcn UI components
+│   ├── AnimatedBeams.tsx
+│   ├── OrbitingCircleDemo.tsx
+│   ├── MainTitle/
+│   ├── TerminalCode/
+│   └── ...
+│
+├── lib/
+│   ├── constant.ts
+│   └── utils.ts
+│
+├── public/
+│   ├── icons/
+│   └── manifest.json
+│
+├── next.config.mjs
+├── tailwind.config.ts
+├── tsconfig.json
+└── package.json
+```
+
+---
+
+## Optional Modules
+
+The CLI allows users to select which modules they want. Each module can be independently enabled/disabled.
+
+### 1. MMKV Storage (Default: ✅ Enabled)
+
+**Ultra-fast persistent storage (~30x faster than AsyncStorage)**
+
+**Dependencies**:
+
+- `react-native-mmkv`: ^4.0.0
+- `react-native-nitro-modules`: ^0.31.5
+
+**Files**:
+
+- `lib/mmkv.ts` - Storage instance
+
+**Usage**:
+
+```typescript
 import { storage } from '@/lib/mmkv';
 
 // Set values
 storage.set('user.name', 'John Doe');
 storage.set('user.age', 30);
-storage.set('user.isActive', true);
 
 // Get values
 const name = storage.getString('user.name');
 const age = storage.getNumber('user.age');
-const isActive = storage.getBoolean('user.isActive');
-
-// Remove values
-storage.remove('user.name');
-
-// Check if key exists
-const hasName = storage.contains('user.name');
 ```
 
-### TanStack Query (React Query)
+---
 
-Powerful data fetching and state management for server state:
+### 2. React Query (TanStack Query) (Default: ✅ Enabled)
 
-**Query Example** (Fetching data):
+**Powerful data fetching and server state management**
 
-```tsx
-import { useUser } from '@/lib/hooks/use-user';
+**Dependencies**:
 
-export function UserProfile() {
-  const { data: user, isLoading, isError, error, refetch } = useUser(1);
+- `@tanstack/react-query`: ^5.90.7
 
-  if (isLoading) return <ActivityIndicator />;
-  if (isError) return <Text>Error: {error.message}</Text>;
+**Files**:
 
-  return (
-    <View>
-      <Text>{user.name}</Text>
-      <Text>{user.email}</Text>
-    </View>
-  );
-}
-```
+- `lib/query-client.ts` - QueryClient config
+- `app/_layout.tsx` - Provider wrapper
 
-**Mutation Example** (Updating data):
+**Usage**:
 
-```tsx
-import { useUpdateUser } from '@/lib/hooks/use-user';
-
-export function EditProfile() {
-  const { mutate: updateUser, isPending } = useUpdateUser();
-
-  const handleUpdate = () => {
-    updateUser(
-      { id: 1, name: 'New Name' },
-      {
-        onSuccess: () => {
-          console.log('Updated!');
-        },
-        onError: error => {
-          console.error('Failed:', error);
-        },
-      },
-    );
-  };
-
-  return (
-    <Pressable onPress={handleUpdate} disabled={isPending}>
-      <Text>Update Profile</Text>
-    </Pressable>
-  );
-}
-```
-
-**Custom Hook Pattern**:
-
-```tsx
+```typescript
 import { useQuery } from '@tanstack/react-query';
 
 export const useUser = (userId: number) => {
@@ -341,257 +672,277 @@ export const useUser = (userId: number) => {
       const response = await fetch(`/api/users/${userId}`);
       return response.json();
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
+
+// In component
+const { data, isLoading, error } = useUser(1);
+```
+
+---
+
+### 3. expo-dev-client (Default: ✅ Enabled)
+
+**Enhanced debugging and custom native modules**
+
+**Dependencies**:
+
+- `expo-dev-client`: ~6.0.17
+
+**Scripts**:
+
+```json
+"dev": "EXPO_USE_FAST_RESOLVER=1 bunx expo start --dev-client -c"
 ```
 
 **Benefits**:
 
-- ✅ Automatic caching and refetching
-- ✅ Background updates
-- ✅ Optimistic updates
-- ✅ Request deduplication
-- ✅ Pagination and infinite queries
-- ✅ Automatic retries on error
-
-### Light/Dark Mode
-
-Pre-configured with automatic theme switching:
-
-```tsx
-import { useColorScheme } from 'nativewind';
-
-export function ThemeToggle() {
-  const { colorScheme, setColorScheme } = useColorScheme();
-
-  return (
-    <Pressable onPress={() => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')}>
-      <Text>Toggle Theme</Text>
-    </Pressable>
-  );
-}
-```
-
-### Expo Router Navigation
-
-```tsx
-import { router } from 'expo-router';
-
-// Navigate to a route
-router.push('/profile');
-
-// Navigate with params
-router.push({
-  pathname: '/user/[id]',
-  params: { id: '123' },
-});
-
-// Go back
-router.back();
-
-// Replace current route
-router.replace('/home');
-```
-
-### New Architecture
-
-This boilerplate has React Native's New Architecture enabled:
-
-- ✅ **Fabric** - New rendering system
-- ✅ **TurboModules** - Faster native module loading
-- ✅ **JSI** - JavaScript Interface for synchronous native calls
-- ✅ **Hermes** - Optimized JavaScript engine
+- ✅ Native logs access
+- ✅ Custom native modules support
+- ✅ Better debugging
+- ✅ Network inspector
 
 ---
 
-## Scripts
+### 4. Jest (Default: ✅ Enabled)
 
-### Development
+**Unit testing framework**
 
-```bash
-bun run start         # Start Metro with cache cleared
-bun run dev          # Start with Expo Dev Client
-bun run ios          # Build and run iOS
-bun run android      # Build and run Android
+**Dependencies**:
+
+- `jest`: ^29.7.0
+- `@testing-library/react-native`
+
+**Files**:
+
+- `__tests__/` directory
+
+**Scripts**:
+
+```json
+"test": "jest"
 ```
 
-### Code Quality
+---
 
-```bash
-bun run lint         # Run ESLint
-bun run format       # Format with Prettier
-bun run format:check # Check formatting
-bun run test         # Run Jest tests
+## Coding Conventions
+
+### File Naming
+
+- **Components**: PascalCase (e.g., `UserProfile.tsx`)
+- **Utilities**: camelCase (e.g., `formatDate.ts`)
+- **Routes**: kebab-case or index (e.g., `user-profile.tsx`, `index.tsx`)
+
+### TypeScript
+
+```typescript
+// ✅ Good - Explicit types
+interface UserProps {
+  id: string;
+  name: string;
+  email?: string;
+}
+
+export function UserCard(props: UserProps) {
+  const { id, name, email } = props;
+  return <View>...</View>;
+}
+
+// ❌ Avoid - Any types
+function UserCard(props: any) {
+  return <View>...</View>;
+}
 ```
 
-### Maintenance
+### React Components
 
-```bash
-bun run clean        # Clean build artifacts
-bun install          # Install dependencies
-bunx expo-doctor     # Check project health
-bunx expo install --check  # Verify dependency versions
+```tsx
+// ✅ Good - Named export, typed props
+interface CardProps {
+  title: string;
+  description?: string;
+}
+
+export function Card({ title, description }: CardProps) {
+  return (
+    <View className="p-4 bg-white rounded-lg">
+      <Text className="text-lg font-bold">{title}</Text>
+      {description && <Text>{description}</Text>}
+    </View>
+  );
+}
+
+// ❌ Avoid - Default export, no types
+export default function Card(props) {
+  return <View>...</View>;
+}
 ```
 
-### iOS Specific
+### NativeWind Styling
+
+```tsx
+// ✅ Good - Use Tailwind classes
+<View className="flex-1 items-center justify-center bg-white dark:bg-black">
+  <Text className="text-xl font-bold">Hello</Text>
+</View>
+
+// ❌ Avoid - Inline styles
+<View style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff' }}>
+  <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Hello</Text>
+</View>
+```
+
+---
+
+## Scripts Reference
+
+### Root Scripts
 
 ```bash
-cd ios && pod install               # Install CocoaPods
-bunx expo prebuild --clean          # Regenerate native code
+# Setup
+bun run get_started          # Install all dependencies
+bun run clean                # Clean all build artifacts
+
+# Build
+bun run build                # Build all packages
+bun run build:cli            # Build CLI
+bun run build:www            # Build website
+
+# Development
+bun run dev                  # Run all in dev mode
+bun run dev:cli              # Watch CLI changes
+bun run dev:www              # Run website dev server
+
+# Template
+bun run template:start       # Start template
+bun run template:ios         # Run on iOS
+bun run template:android     # Run on Android
+
+# Code Quality
+bun run format               # Format all files
+bun run format:check         # Check formatting
+bun run lint                 # Lint all packages
+
+# Cleanup
+bun run clean:cli            # Clean CLI only
+bun run clean:www            # Clean website only
+bun run clean:template       # Clean template only
+```
+
+### Template Scripts
+
+```bash
+# From cli/templates/base/
+bun start                    # Start Expo
+bun run dev                  # With dev client
+bun run ios                  # Run on iOS
+bun run android              # Run on Android
+bun run web                  # Run on web
+bun run test                 # Run Jest tests
+bun run lint                 # Lint code
+bun run format               # Format code
 ```
 
 ---
 
 ## Best Practices
 
-### 1. Use Bun for Speed
+### Monorepo Development
 
-```bash
-# Install with bun (faster)
-bun add <package>
+1. **Always install from root** - `cd` to root and run `bun install`
+2. **Use workspace protocol** - `workspace:*` for internal dependencies
+3. **Build before testing** - Run `bun run build:cli` before testing CLI
+4. **Keep caches clean** - Run `bun run clean` when switching branches
+5. **Test locally** - Use `bun link` to test CLI globally
 
-# Run scripts with bun
-bun run ios
-```
+### CLI Development
 
-### 2. Leverage File-Based Routing
+1. **Use local template** - CLI copies from `/cli/templates/base/`
+2. **Test module removal** - Verify each module can be safely removed
+3. **Handle errors gracefully** - Use try/catch and clear error messages
+4. **Version consistently** - Bump version in package.json before publishing
+5. **Update dependencies** - Keep template dependencies up to date
 
-```
-app/
-├── index.tsx           → /
-├── about.tsx           → /about
-├── user/
-│   └── [id].tsx        → /user/:id
-└── (tabs)/
-    ├── home.tsx        → /(tabs)/home
-    └── settings.tsx    → /(tabs)/settings
-```
+### Template Development
 
-### 3. Use MMKV for Storage
+1. **Test without modules** - Ensure app works with any module combination
+2. **Use absolute imports** - `@/` prefix for cleaner imports
+3. **Keep components small** - Single responsibility principle
+4. **Document features** - Update README with new features
+5. **Test on devices** - Always test on real iOS/Android devices
 
-```tsx
-// ✅ Good - Fast synchronous storage
-storage.set('token', token);
+### Website Development
 
-// ❌ Avoid - Slower async storage
-await AsyncStorage.setItem('token', token);
-```
-
-### 4. Type Everything
-
-```tsx
-// ✅ Good
-interface User {
-  id: string;
-  name: string;
-}
-
-function greet(user: User): string {
-  return `Hello ${user.name}`;
-}
-
-// ❌ Avoid
-function greet(user: any) {
-  return `Hello ${user.name}`;
-}
-```
-
-### 5. Use NativeWind Classes
-
-```tsx
-// ✅ Good
-<View className="p-4 bg-blue-500 rounded-lg">
-
-// ❌ Avoid inline styles
-<View style={{ padding: 16, backgroundColor: '#3B82F6', borderRadius: 8 }}>
-```
-
-### 6. Keep Components Small
-
-```tsx
-// ✅ Good - Single responsibility
-export function UserAvatar({ url }: { url: string }) {
-  return <Image source={{ uri: url }} className="w-10 h-10 rounded-full" />;
-}
-
-export function UserCard({ user }: { user: User }) {
-  return (
-    <View className="p-4">
-      <UserAvatar url={user.avatar} />
-      <Text>{user.name}</Text>
-    </View>
-  );
-}
-```
-
-### 7. Use Expo Dev Client
-
-```bash
-# First build (includes native modules)
-bun run ios
-
-# Daily development (faster)
-bun run dev  # Then open already-installed app
-```
+1. **Optimize images** - Use Next.js Image component
+2. **Mobile-first** - Design for mobile, enhance for desktop
+3. **Accessibility** - Use semantic HTML and ARIA labels
+4. **Performance** - Lazy load components and images
+5. **SEO** - Use proper meta tags and structured data
 
 ---
 
-## Repository Links
+## Links & Resources
 
-- **Boilerplate**: [https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate](https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate)
-- **NPM Package**: [https://github.com/Teczer/fast-expo-app](https://github.com/Teczer/fast-expo-app)
+- **Main Repository**: https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate
+- **NPM Package**: https://www.npmjs.com/package/fast-expo-app
+- **Website**: https://fast-expo-app-web.vercel.app/
+- **Expo Documentation**: https://docs.expo.dev/
+- **React Native**: https://reactnative.dev/
+- **NativeWind**: https://www.nativewind.dev/
+- **Turborepo**: https://turbo.build/
 
 ---
 
-## Quick Reference
+## Troubleshooting
 
-### Common Commands
+### CLI Issues
+
+**"Template not found"**
 
 ```bash
-# Start development
-bun run start
+# Build the CLI first
+bun run build:cli
 
-# Run on platforms
-bun run ios
-bun run android
-bun run web
+# The path resolves to: cli/templates/base/
+```
 
-# Code quality
-bun run lint
-bun run format
+**"Command not found: fast-expo-app"**
 
-# Clean & rebuild
+```bash
+cd packages/fast-expo-app
+bun link
+```
+
+### Template Issues
+
+**Dependencies not installing**
+
+```bash
+cd cli/templates/base
+rm -rf node_modules
+bun install
+```
+
+**Metro bundler cache issues**
+
+```bash
 bun run clean
-rm -rf node_modules && bun install
-cd ios && pod install
+# or
+rm -rf node_modules/.cache .expo
 ```
 
-### Import Aliases
+### Turborepo Issues
 
-```tsx
-import { Component } from '@/components/Component';
-import { utils } from '@/lib/utils';
-import { Colors } from '@/constants/Colors';
+**Stale cache**
+
+```bash
+bun run build --force  # Force rebuild
 ```
 
-### NativeWind Classes
+**Workspace not found**
 
-```tsx
-// Layout
-className = 'flex flex-row items-center justify-between';
-
-// Spacing
-className = 'p-4 mx-2 my-4';
-
-// Colors
-className = 'bg-blue-500 text-white dark:bg-blue-900';
-
-// Typography
-className = 'text-lg font-bold';
-
-// Borders & Radius
-className = 'border border-gray-300 rounded-lg';
+```bash
+bun install  # Reinstall from root
 ```
 
 ---
