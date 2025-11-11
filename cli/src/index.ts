@@ -70,7 +70,7 @@ async function main() {
     {
       type: 'input',
       name: 'projectName',
-      message: 'What do you want to name your project?',
+      message: 'What do you want to name your project ?',
       default: 'my-app',
       validate: (input: string) => {
         if (input.length === 0) {
