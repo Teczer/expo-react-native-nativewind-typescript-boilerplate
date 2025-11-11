@@ -10,7 +10,10 @@
     "build": "tsc --project ../../cli/tsconfig.json && bun run copy-template",
     "copy-template": "rm -rf templates && cp -r ../../cli/templates templates",
     "dev": "tsc --project ../../cli/tsconfig.json --watch",
-    "publish": "npm publish"
+    "prepublishOnly": "bun run build",
+    "publish:patch": "bun run publish.ts patch",
+    "publish:minor": "bun run publish.ts minor",
+    "publish:major": "bun run publish.ts major"
   },
   "repository": {
     "type": "git",
