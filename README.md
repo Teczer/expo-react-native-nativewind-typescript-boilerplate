@@ -4,9 +4,8 @@
 
 [![npm version](https://img.shields.io/npm/v/fast-expo-app.svg)](https://www.npmjs.com/package/fast-expo-app)
 [![GitHub stars](https://img.shields.io/github/stars/Teczer/expo-react-native-nativewind-typescript-boilerplate.svg)](https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Modern React Native boilerplate with CLI for rapid mobile app development**
+**⚡ Lightning-fast CLI to create production-ready React Native apps with modern best practices**
 
 [Quick Start](#quick-start) • [Features](#features) • [Documentation](#documentation) • [Contributing](#contributing)
 
@@ -34,33 +33,50 @@ That's it! The CLI will guide you through the setup process and let you choose w
 
 ## ✨ Features
 
-This boilerplate includes everything you need to build production-ready React Native applications:
-
-### 🎯 Core Stack
+### 🎯 Core Stack (Always Included)
 
 - ⚡ **Expo SDK 54** - Latest Expo with New Architecture enabled
-- ⚛️ **React Native 0.81** - Modern React Native with Fabric
-- 🔥 **TypeScript 5.9** - Type-safe development
-- 💎 **NativeWind v4** - Tailwind CSS for React Native
-- 📁 **Expo Router v6** - File-based routing
+- ⚛️ **React Native 0.81** - Modern React Native with Fabric renderer
+- 🔥 **TypeScript 5.9** - Strict type-safety out of the box
+- 📁 **Expo Router v6** - File-based routing with typed routes
+- 💾 **MMKV v4** - Ultra-fast storage with Nitro Modules (~30x faster than AsyncStorage)
+- 📱 **react-native-edge-to-edge** - Modern edge-to-edge display
 
-### 🔧 Optional Features
+### 🎨 Styling Options (Choose One)
 
-Choose what you need during setup:
+**NativeWind v4** 🌊
 
-- 📊 **MMKV v4** - Ultra-fast storage (~30x faster than AsyncStorage)
-- 🌐 **TanStack Query v5** - Powerful data fetching and state management
+- Tailwind CSS for React Native
+- Utility-first CSS framework
+- Dark mode with persistent storage
+- Color utilities centralized
+
+**Unistyles v3** 💎
+
+- Type-safe styling solution
+- 3-theme system (light/dark/premium)
+- Runtime theme switching
+- Breakpoints support
+- Better performance
+
+### 🔧 Optional Modules
+
+Pick what you need during setup:
+
+- 🌐 **TanStack Query v5** - Powerful data fetching with MMKV persistence
+- 🔄 **Zustand** - Lightweight state management with MMKV storage
 - 🛠️ **expo-dev-client** - Enhanced debugging with native logs
 - 🧪 **Jest** - Unit testing framework
-- 🔄 **Zustand** - Lightweight state management *(coming soon)*
 
-### 🎨 Pre-configured
+### 🎁 Pre-configured
 
-- 🌜 Light/Dark mode with toggle
-- 📏 ESLint + Prettier
-- 🎯 Absolute imports with `@` prefix
-- 🔐 New Architecture enabled
-- 📱 SafeArea support
+- 🌓 **Theme System** - Light/Dark/Premium modes with MMKV persistence
+- 🎯 **Absolute Imports** - Clean imports with `@/` prefix
+- 📏 **Code Quality** - ESLint + Prettier pre-configured
+- 🔐 **New Architecture** - Fabric renderer enabled
+- 📱 **SafeArea** - Proper insets handling
+- 🎭 **Animations** - React Native Reanimated ready
+- ⌨️ **Keyboard** - Smart keyboard handling
 
 ---
 
@@ -179,17 +195,19 @@ bun start
 ### Work on CLI
 
 ```bash
-# Build and test CLI locally
+# 1. Build the CLI from source
 bun run build:cli
 
-# Link CLI globally for testing
-cd packages/fast-expo-app
-bun link
+# 2. Test the CLI locally (choose one method):
 
-# Test the CLI
-cd /tmp
-fast-expo-app
+# Method 1: Use the test script (easiest - recommended)
+# From monorepo root:
+bun run test:cli
+# The CLI will prompt you for project name and options
+# Navigate to the directory where you want to create the project first if needed
 ```
+
+**Note:** Method 1 (`bun run test:cli`) is the simplest - just build and run!
 
 ### Work on Website
 
@@ -219,20 +237,21 @@ We welcome contributions! Please see our [Contributing Guide](./docs/CONTRIBUTIN
 
 ## 📈 Project Stats
 
-- **66+ GitHub Stars** ⭐
+- **80+ GitHub Stars** ⭐
 - **26+ Forks** 🍴
-- **2.0+ Version** with major updates
+- **v3.0.0** - Major release with Unistyles v3 & enhanced features
 - **Active Development** 🚀
 
----
+## 🆕 What's New in v3.0.0
 
-## 🙏 Acknowledgments
-
-Special thanks to:
-
-- [@neiltalap](https://github.com/neiltalap) for suggesting expo-dev-client and debugging improvements
-- All our [contributors](https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate/graphs/contributors)
-- The Expo and React Native communities
+- ✨ **Unistyles v3** support with 3-theme system (light/dark/premium)
+- 🎨 **Choose your styling** - NativeWind v4 OR Unistyles v3
+- 💾 **MMKV mandatory** - Now included by default for better performance
+- 🎯 **Theme persistence** - Automatic theme saving with MMKV
+- 🔧 **Better architecture** - Cleaner file structure (`lib/`, `providers/`, `utils/`)
+- 🎭 **Enhanced components** - `ThemeToggle` with haptic feedback
+- 📦 **Modular system** - Conditional file generation based on choices
+- 🚀 **Performance** - Optimized with Nitro Modules and Worklets
 
 ---
 
@@ -244,9 +263,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- **Website**: [fast-expo-app-web.vercel.app](https://fast-expo-app-web.vercel.app/)
+- **Website**: [fast-expo-app](https://fast-expo-app-web.vercel.app/)
 - **npm Package**: [npmjs.com/package/fast-expo-app](https://www.npmjs.com/package/fast-expo-app)
-- **GitHub**: [github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate](https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate)
+- **GitHub**: [github.com/Teczer/fast-expo-app](https://github.com/Teczer/fast-expo-app)
 
 ---
 

@@ -1,8 +1,8 @@
 {
   "name": "fast-expo-app-monorepo",
   "private": true,
-  "version": "2.0.0",
-  "description": "Monorepo for Fast Expo App - Modern React Native boilerplate with CLI",
+  "version": "3.0.0",
+  "description": "⚡ Fast Expo App Monorepo - Lightning-fast CLI to create production-ready React Native apps",
   "repository": {
     "type": "git",
     "url": "https://github.com/Teczer/expo-react-native-nativewind-typescript-boilerplate.git"
@@ -13,6 +13,7 @@
     "packages/fast-expo-app"
   ],
   "scripts": {
+    "test:cli": "node packages/fast-expo-app/bin/fast-expo-app.js",
     "get_started": "./scripts/get_started.sh",
     "clean": "./scripts/clean.sh",
     "cli": "bun run cli/src/index.ts",
@@ -61,10 +62,15 @@
     "expo",
     "react-native",
     "nativewind",
+    "unistyles",
     "typescript",
     "boilerplate",
     "cli",
-    "monorepo"
+    "monorepo",
+    "mmkv",
+    "react-query",
+    "zustand",
+    "expo-router"
   ],
   "author": "Teczer",
   "bugs": {

@@ -27,20 +27,37 @@
 2. A **production-ready boilerplate** with modern best practices
 3. A **landing website** to showcase the project
 
-### What's Included
+### What's Included (v3.0.0)
+
+#### Core Stack (Always Included)
 
 ✅ **Expo SDK 54** with New Architecture enabled  
-✅ **React Native 0.81** with latest features  
+✅ **React Native 0.81** with Fabric renderer  
 ✅ **TypeScript 5.9** with strict mode  
-✅ **NativeWind v4** for Tailwind CSS styling  
-✅ **Expo Router v6** for file-based routing  
-✅ **TanStack Query (React Query)** for data fetching  
-✅ **MMKV v4** for ultra-fast storage (with Nitro Modules)  
-✅ **Expo Dev Client** for custom native modules  
-✅ **ESLint + Prettier** pre-configured  
-✅ **Jest** for testing  
-✅ **Light/Dark mode** ready to use  
-✅ **Turborepo** for monorepo management
+✅ **Expo Router v6** for file-based routing with typed routes  
+✅ **MMKV v4** for ultra-fast storage (Nitro Modules, ~30x faster)  
+✅ **expo-haptics** for native haptic feedback  
+✅ **react-native-edge-to-edge** for modern edge-to-edge display  
+✅ **react-native-worklets** for high-performance animations
+
+#### Styling Options (Choose One)
+
+✅ **NativeWind v4** - Tailwind CSS for React Native with dark mode  
+✅ **Unistyles v3** - Type-safe styling with 3-theme system (light/dark/premium)
+
+#### Optional Modules
+
+✅ **TanStack Query v5** - Data fetching with MMKV persistence  
+✅ **Zustand** - State management with MMKV storage  
+✅ **Expo Dev Client** - Enhanced debugging  
+✅ **Jest** - Unit testing
+
+#### Pre-configured
+
+✅ **Theme System** - Persistent themes with MMKV  
+✅ **ESLint + Prettier** - Code quality tools  
+✅ **Absolute Imports** - `@/` prefix for clean imports  
+✅ **Turborepo** - Monorepo management
 
 ---
 
@@ -73,25 +90,32 @@ fast-expo-app-monorepo/
 │
 ├── cli/                          # 🛠️ CLI Source (root level)
 │   ├── src/
-│   │   └── index.ts              # CLI implementation
+│   │   ├── index.ts              # CLI implementation
+│   │   ├── generate-project.ts   # Project generation logic
+│   │   ├── module-manager.ts     # Module management
+│   │   └── ascii-art.ts          # CLI banner
 │   ├── templates/
 │   │   └── base/                 # 📱 React Native Template
 │   │       ├── app/              # Expo Router routes
 │   │       ├── components/       # React components
-│   │       ├── lib/              # Utilities (MMKV, React Query)
+│   │       ├── lib/              # Core utilities
+│   │       ├── providers/        # React providers
 │   │       ├── constants/        # App constants
 │   │       ├── assets/           # Images, fonts
 │   │       ├── android/          # Android native
 │   │       ├── ios/              # iOS native
 │   │       ├── __tests__/        # Jest tests (optional)
-│   │       ├── app.json          # Expo config
-│   │       ├── package.json      # Template dependencies
-│   │       ├── tsconfig.json
-│   │       ├── tailwind.config.js
-│   │       ├── global.css
 │   │       └── README.md
-│   ├── modules/                  # 🔮 Future optional modules
-│   │   └── .gitkeep
+│   ├── modules/                  # 🔮 Conditional modules
+│   │   ├── app/                  # Screen modules (styling-specific)
+│   │   ├── components/           # Component modules
+│   │   ├── constants/            # Constants (themes, colors)
+│   │   ├── layout/               # Layout modules (styling-specific)
+│   │   ├── lib/                  # Library modules (hooks, storage)
+│   │   ├── query-provider/       # React Query providers
+│   │   ├── storage/              # MMKV storage modules
+│   │   ├── styling/              # Styling configs (Unistyles)
+│   │   └── utils/                # Utility modules (colors)
 │   ├── tsconfig.json             # CLI TypeScript config
 │   └── README.md                 # CLI documentation
 │
@@ -136,6 +160,90 @@ fast-expo-app-monorepo/
 ├── QUICK_START.md                # Quick start guide
 └── LICENSE                       # MIT License
 ```
+
+---
+
+## What's New in v3.0.0 🆕
+
+### Major Features
+
+#### 1. **Dual Styling System** 🎨
+
+Choose between two powerful styling solutions:
+
+- **NativeWind v4** - Tailwind CSS for React Native
+- **Unistyles v3** - Type-safe styling with breakpoints
+
+#### 2. **Enhanced Theme System** 🌓
+
+- **3-theme support** for Unistyles (light/dark/premium)
+- **MMKV persistence** - Themes saved automatically
+- **Haptic feedback** - Native feel on theme toggle
+- **Runtime switching** - Instant theme changes
+
+#### 3. **Mandatory MMKV** 💾
+
+- Now included by default (not optional)
+- ~30x faster than AsyncStorage
+- Nitro Modules for native performance
+- Persistent storage for themes and state
+
+#### 4. **Better Architecture** 🏗️
+
+```
+Generated Project Structure:
+project/
+├── lib/                    # Core utilities
+│   ├── mmkvStorage.ts     # MMKV storage
+│   ├── query-client.ts    # React Query config
+│   ├── use-persisted-color-scheme.ts  # NativeWind theme hook
+│   └── zustand.ts         # Zustand store (optional)
+├── providers/              # React providers
+│   └── query-provider.tsx # React Query provider
+├── utils/                  # Utilities
+│   └── colors.ts          # Color utilities (NativeWind)
+├── constants/              # Constants
+│   └── themes.ts          # Theme configs (Unistyles)
+├── components/             # React components
+│   ├── theme-toggle.tsx   # Theme toggle component
+│   ├── container.tsx      # Container component
+│   └── external-link.tsx  # External link component
+└── app/                    # Expo Router screens
+```
+
+#### 5. **Conditional Generation** 🔧
+
+Files are generated based on user choices:
+
+- **Styling-specific files** - Only NativeWind OR Unistyles files
+- **Module-specific files** - Only selected modules
+- **Clean output** - No unused files
+
+#### 6. **Performance Enhancements** ⚡
+
+- **react-native-worklets** - High-performance animations
+- **expo-haptics** - Native haptic feedback
+- **react-native-edge-to-edge** - Modern display
+- **Optimized imports** - Absolute paths with `@/`
+
+### Breaking Changes from v2.x
+
+1. **MMKV is mandatory** - No longer optional
+2. **Styling choice required** - Must choose NativeWind OR Unistyles
+3. **File structure changed** - New `providers/` and `utils/` directories
+4. **Theme system redesigned** - New persistence with MMKV
+5. **Component naming** - All kebab-case (e.g., `theme-toggle.tsx`)
+
+### Migration from v2.x
+
+If you have an existing v2.x project:
+
+1. Generate a new v3.0.0 project
+2. Copy your custom code
+3. Update imports to match new structure
+4. Adopt new theme system with MMKV persistence
+
+---
 
 ### Workspace Configuration
 
@@ -729,7 +837,9 @@ const { data, isLoading, error } = useUser(1);
 
 ### File Naming
 
-- **Components**: PascalCase (e.g., `UserProfile.tsx`)
+- **Components**: **kebab-case** (e.g., `user-profile.tsx`, `theme-toggle.tsx`, `container.tsx`)
+  - ⚠️ **Important**: Always use kebab-case for component files, never PascalCase
+  - Examples: `container.tsx`, `theme-toggle.tsx`, `external-link.tsx`
 - **Utilities**: camelCase (e.g., `formatDate.ts`)
 - **Routes**: kebab-case or index (e.g., `user-profile.tsx`, `index.tsx`)
 

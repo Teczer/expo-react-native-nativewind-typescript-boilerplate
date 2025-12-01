@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-import inquirer from 'inquirer';
+import * as p from '@clack/prompts';
 import fs from 'fs';
 import path from 'path';
-import chalk from 'chalk';
 import { fileURLToPath } from 'url';
+import { printBanner } from './ascii-art.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,10 +43,9 @@ function copyFolderSync(from: string, to: string, basePath: string = from) {
     }
 
     try {
-      const stat = fs.lstatSync(fromPath); // Utiliser lstatSync pour détecter les liens symboliques
+      const stat = fs.lstatSync(fromPath);
 
       if (stat.isSymbolicLink()) {
-        // Ignorer les liens symboliques
         continue;
       }
 
@@ -57,175 +56,231 @@ function copyFolderSync(from: string, to: string, basePath: string = from) {
       }
     } catch (error) {
       // Ignorer les erreurs de fichiers inaccessibles
-      console.log(chalk.yellow(`   ⚠️  Skipping: ${relativePath}`));
     }
   }
 }
 
 async function main() {
-  console.log(chalk.bold.cyan('\n🚀 Welcome to Fast Expo App!\n'));
+  const startTime = Date.now();
+
+  // Clear console and show banner
+  console.clear();
+  printBanner();
+
+  p.intro('Fast Expo App');
 
   // 1. Prompt pour le nom du projet
-  const { projectName } = await inquirer.prompt<{ projectName: string }>([
-    {
-      type: 'input',
-      name: 'projectName',
-      message: 'What do you want to name your project ?',
-      default: 'my-app',
-      validate: (input: string) => {
-        if (input.length === 0) {
-          return 'Project name cannot be empty';
-        }
-        if (fs.existsSync(input)) {
-          return `Folder "${input}" already exists`;
-        }
-        return true;
-      },
+  const projectName = await p.text({
+    message: 'Enter your project name or path',
+    placeholder: 'my-expo-app',
+    defaultValue: 'my-expo-app',
+    validate: (value) => {
+      if (!value || value.length === 0) {
+        return 'Project name cannot be empty';
+      }
+      if (fs.existsSync(value)) {
+        return `Folder "${value}" already exists`;
+      }
+      return;
     },
-  ]);
+  });
 
-  // 2. Instructions pour les checkbox
-  console.log(
-    chalk.dim('\n💡 Tip: Use ↑↓ arrows to navigate, Space to select/deselect, Enter to confirm\n')
+  if (p.isCancel(projectName)) {
+    p.cancel('Operation cancelled.');
+    process.exit(0);
+  }
+
+  // 2. Prompt pour le choix du système de styling (OBLIGATOIRE)
+  const styling = await p.select({
+    message: 'Choose a styling solution (required)',
+    options: [
+      {
+        value: 'nativewind',
+        label: 'NativeWind',
+        hint: 'Tailwind CSS for React Native',
+      },
+      {
+        value: 'unistyles',
+        label: 'Unistyles',
+        hint: 'Type-safe styling solution',
+      },
+    ],
+    initialValue: 'nativewind',
+  });
+
+  if (p.isCancel(styling)) {
+    p.cancel('Operation cancelled.');
+    process.exit(0);
+  }
+
+  // 3. Prompt pour la sélection des modules (MMKV est obligatoire)
+  const modules = await p.multiselect({
+    message: 'Select optional modules (MMKV is included by default)',
+    options: [
+      {
+        value: 'zustand',
+        label: 'Zustand',
+        hint: 'Lightweight state management',
+      },
+      {
+        value: 'expo-dev-client',
+        label: 'expo-dev-client',
+        hint: 'Enhanced debugging & custom native modules',
+      },
+      {
+        value: 'react-query',
+        label: 'React Query',
+        hint: 'Powerful data fetching & server state management',
+      },
+      {
+        value: 'jest',
+        label: 'Jest',
+        hint: 'Unit testing framework',
+      },
+    ],
+    required: false,
+    initialValues: ['expo-dev-client', 'react-query', 'jest'],
+  });
+
+  if (p.isCancel(modules)) {
+    p.cancel('Operation cancelled.');
+    process.exit(0);
+  }
+
+  // MMKV is always included
+  const allModules = ['mmkv', ...modules];
+
+  // 4. Ask about git initialization
+  const initGit = await p.confirm({
+    message: 'Initialize git repository?',
+    initialValue: true,
+  });
+
+  if (p.isCancel(initGit)) {
+    p.cancel('Operation cancelled.');
+    process.exit(0);
+  }
+
+  // 5. Ask about package manager
+  const packageManager = await p.select({
+    message: 'Choose package manager',
+    options: [
+      { value: 'bun', label: 'Bun', hint: 'Recommended' },
+      { value: 'npm', label: 'npm' },
+      { value: 'yarn', label: 'Yarn' },
+      { value: 'pnpm', label: 'pnpm' },
+    ],
+    initialValue: 'bun',
+  });
+
+  if (p.isCancel(packageManager)) {
+    p.cancel('Operation cancelled.');
+    process.exit(0);
+  }
+
+  // 6. Ask about installing dependencies
+  const installDeps = await p.confirm({
+    message: 'Install dependencies?',
+    initialValue: true,
+  });
+
+  if (p.isCancel(installDeps)) {
+    p.cancel('Operation cancelled.');
+    process.exit(0);
+  }
+
+  // Show selected options
+  p.note(
+    [
+      `Frontend: Expo + ${styling === 'nativewind' ? 'NativeWind' : styling === 'unistyles' ? 'Unistyles' : 'StyleSheet'}`,
+      `Modules: ${allModules.join(', ')}`,
+      `Package Manager: ${packageManager}`,
+    ].join('\n'),
+    'Using these options'
   );
 
-  // 3. Prompt pour la sélection des modules
-  const { modules } = await inquirer.prompt<{ modules: string[] }>([
-    {
-      type: 'checkbox',
-      name: 'modules',
-      message: 'Select the modules you want to include:',
-      choices: [
-        {
-          name: 'MMKV (ultra-fast storage ~30x faster than AsyncStorage)',
-          value: 'mmkv',
-          checked: true,
-        },
-        {
-          name: 'expo-dev-client (enhanced debugging & custom native modules)',
-          value: 'expo-dev-client',
-          checked: true,
-        },
-        {
-          name: 'React Query (powerful data fetching & server state management)',
-          value: 'react-query',
-          checked: true,
-        },
-        {
-          name: 'Jest (unit testing framework)',
-          value: 'jest',
-          checked: true,
-        },
-      ],
-    },
-  ]);
-
-  // 4. Copier le template
-  console.log(chalk.cyan('\n📦 Creating your project...\n'));
+  // 7. Start creating project
+  const spinner = p.spinner();
+  spinner.start('Creating your project...');
 
   const templatePath = path.join(__dirname, '..', 'templates', 'base');
-  const targetPath = path.join(process.cwd(), projectName);
+  const targetPath = path.join(process.cwd(), projectName as string);
 
   if (!fs.existsSync(templatePath)) {
-    console.error(chalk.red(`❌ Template not found at: ${templatePath}`));
+    spinner.stop('❌ Template not found');
+    p.cancel(`Template not found at: ${templatePath}`);
     process.exit(1);
   }
 
   copyFolderSync(templatePath, targetPath);
 
-  // 5. Lire le package.json
-  const pkgPath = path.join(targetPath, 'package.json');
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-
-  // 6. Mettre à jour le nom du projet dans package.json
-  pkg.name = projectName;
-
-  // 7. Supprimer les modules non sélectionnés
-  if (!modules.includes('mmkv')) {
-    console.log(chalk.yellow('   🗑️  Removing MMKV...'));
-    if (pkg.dependencies?.['react-native-mmkv']) {
-      delete pkg.dependencies['react-native-mmkv'];
-    }
-    if (pkg.dependencies?.['react-native-nitro-modules']) {
-      delete pkg.dependencies['react-native-nitro-modules'];
-    }
-    if (pkg.devDependencies?.['react-native-mmkv']) {
-      delete pkg.devDependencies['react-native-mmkv'];
-    }
-    if (pkg.devDependencies?.['react-native-nitro-modules']) {
-      delete pkg.devDependencies['react-native-nitro-modules'];
-    }
-    const mmkvFile = path.join(targetPath, 'lib', 'mmkv.ts');
-    if (fs.existsSync(mmkvFile)) {
-      fs.rmSync(mmkvFile, { force: true });
-    }
-  }
-
-  if (!modules.includes('expo-dev-client')) {
-    console.log(chalk.yellow('   🗑️  Removing expo-dev-client...'));
-    if (pkg.dependencies?.['expo-dev-client']) {
-      delete pkg.dependencies['expo-dev-client'];
-    }
-    if (pkg.scripts?.['dev']) {
-      delete pkg.scripts['dev'];
-    }
-  }
-
-  if (!modules.includes('react-query')) {
-    console.log(chalk.yellow('   🗑️  Removing React Query...'));
-    if (pkg.dependencies?.['@tanstack/react-query']) {
-      delete pkg.dependencies['@tanstack/react-query'];
-    }
-    const queryClientFile = path.join(targetPath, 'lib', 'query-client.ts');
-    if (fs.existsSync(queryClientFile)) {
-      fs.rmSync(queryClientFile, { force: true });
-    }
-
-    // Supprimer QueryClientProvider de _layout.tsx
-    const layoutPath = path.join(targetPath, 'app', '_layout.tsx');
-    if (fs.existsSync(layoutPath)) {
-      let layoutContent = fs.readFileSync(layoutPath, 'utf-8');
-      layoutContent = layoutContent.replace(/import.*@tanstack\/react-query.*\n/g, '');
-      layoutContent = layoutContent.replace(/import.*query-client.*\n/g, '');
-      layoutContent = layoutContent.replace(/<QueryClientProvider[^>]*>/g, '');
-      layoutContent = layoutContent.replace(/<\/QueryClientProvider>/g, '');
-      fs.writeFileSync(layoutPath, layoutContent);
-    }
-  }
-
-  if (!modules.includes('jest')) {
-    console.log(chalk.yellow('   🗑️  Removing Jest...'));
-    if (pkg.scripts?.['test']) {
-      delete pkg.scripts['test'];
-    }
-    if (pkg.dependencies?.['jest']) {
-      delete pkg.dependencies['jest'];
-    }
-    if (pkg.devDependencies?.['jest']) {
-      delete pkg.devDependencies['jest'];
-    }
-    if (pkg.devDependencies?.['@testing-library/react-native']) {
-      delete pkg.devDependencies['@testing-library/react-native'];
-    }
-    const testsDir = path.join(targetPath, '__tests__');
-    if (fs.existsSync(testsDir)) {
-      fs.rmSync(testsDir, { recursive: true, force: true });
-    }
-  }
-
-  // 8. Écrire le package.json mis à jour
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
-
-  // 9. Message de succès
-  console.log(chalk.green(`\n✅ Project "${projectName}" is ready!\n`));
-  console.log(
-    chalk.cyan(`📦 Included modules: ${modules.length > 0 ? modules.join(', ') : 'none'}`)
+  // 8. Generate project files using modules (MMKV is always included)
+  const { generateProject } = await import('./generate-project.js');
+  await generateProject(
+    projectName as string,
+    allModules as string[],
+    styling as string,
+    targetPath
   );
-  console.log(chalk.bold('\n🚀 Next steps:'));
-  console.log(chalk.white(`   cd ${projectName}`));
-  console.log(chalk.white(`   bun install`));
-  console.log(chalk.white(`   npx expo prebuild`));
-  console.log(chalk.white(`   bun ios | bun android\n`));
+
+  // 9. Initialize git if requested
+  if (initGit) {
+    spinner.message('Initializing git repository...');
+    try {
+      const { execSync } = await import('child_process');
+      execSync('git init', { cwd: targetPath, stdio: 'ignore' });
+    } catch (error) {
+      // Git might not be installed, ignore
+    }
+  }
+
+  // 10. Install dependencies if requested
+  if (installDeps) {
+    spinner.message('Installing dependencies...');
+    try {
+      const { execSync } = await import('child_process');
+      const installCmd =
+        packageManager === 'bun'
+          ? 'bun install'
+          : packageManager === 'yarn'
+            ? 'yarn install'
+            : packageManager === 'pnpm'
+              ? 'pnpm install'
+              : 'npm install';
+      execSync(installCmd, { cwd: targetPath, stdio: 'inherit' });
+      spinner.stop('✅ Dependencies installed successfully');
+    } catch (error) {
+      spinner.stop('⚠️  Failed to install dependencies');
+      p.note('You can install them manually later', 'Installation failed');
+    }
+  } else {
+    spinner.stop('✅ Project created successfully');
+  }
+
+  // Calculate elapsed time
+  const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+
+  // 11. Success message
+  p.outro('Project template successfully scaffolded! ✨');
+
+  const nextSteps = [
+    `cd ${projectName}`,
+    installDeps
+      ? ''
+      : `${packageManager === 'bun' ? 'bun' : packageManager === 'yarn' ? 'yarn' : packageManager === 'pnpm' ? 'pnpm' : 'npm'} install`,
+    'npx expo prebuild',
+    'bun ios | bun android',
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  p.note(nextSteps, 'Next steps');
+
+  const kleur = (await import('kleur')).default;
+  console.log(`\n${kleur.gray(`Project created successfully in ${elapsedTime} seconds!`)}\n`);
 }
 
-main();
+main().catch((error) => {
+  p.cancel(`An error occurred: ${error.message}`);
+  process.exit(1);
+});

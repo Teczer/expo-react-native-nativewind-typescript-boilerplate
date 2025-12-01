@@ -1,14 +1,15 @@
 {
   "name": "fast-expo-app",
-  "version": "2.0.1",
-  "description": "CLI to create a new Expo app with TypeScript, NativeWind, and more",
+  "version": "3.0.0",
+  "description": "⚡ Fast & modern CLI to create production-ready Expo apps with TypeScript, NativeWind v4, Unistyles v3, MMKV, and more",
   "main": "dist/index.js",
   "bin": {
     "fast-expo-app": "./bin/fast-expo-app.js"
   },
   "scripts": {
-    "build": "tsc --project ../../cli/tsconfig.json && bun run copy-template",
+    "build": "tsc --project ../../cli/tsconfig.json && bun run copy-template && bun run copy-modules",
     "copy-template": "rm -rf templates && cp -r ../../cli/templates templates",
+    "copy-modules": "rm -rf modules && cp -r ../../cli/modules modules",
     "dev": "tsc --project ../../cli/tsconfig.json --watch",
     "prepublishOnly": "bun run build",
     "publish:patch": "bun run publish.ts patch",
@@ -24,9 +25,16 @@
     "expo",
     "react-native",
     "nativewind",
+    "unistyles",
     "typescript",
     "cli",
-    "boilerplate"
+    "boilerplate",
+    "mmkv",
+    "react-query",
+    "zustand",
+    "expo-router",
+    "mobile-app",
+    "starter-template"
   ],
   "author": "Teczer",
   "license": "MIT",
@@ -38,16 +46,14 @@
     "dist",
     "bin",
     "templates",
-    "README.md",
-    "CHANGELOG.md"
+    "modules"
   ],
   "type": "module",
   "dependencies": {
-    "inquirer": "^9.2.12",
-    "chalk": "^5.3.0"
+    "@clack/prompts": "^0.11.0",
+    "kleur": "^4.1.5"
   },
   "devDependencies": {
-    "@types/inquirer": "^9.0.7",
     "@types/node": "^20.10.0",
     "typescript": "^5.9.2"
   },
