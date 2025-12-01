@@ -1,0 +1,19 @@
+# Exclude node_modules from templates
+templates/**/node_modules/
+templates/**/.expo/
+templates/**/ios/Pods/
+templates/**/ios/build/
+templates/**/android/build/
+templates/**/android/.gradle/
+templates/**/.turbo/
+templates/**/dist/
+templates/**/*.log
+templates/**/.DS_Store
+templates/**/bun.lock
+templates/**/package-lock.json
+templates/**/yarn.lock
+
+# Exclude build artifacts
+**/*.tsbuildinfo
+**/.turbo
+

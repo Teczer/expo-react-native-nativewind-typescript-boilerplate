@@ -1,15 +1,16 @@
 {
   "name": "fast-expo-app",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "⚡ Fast & modern CLI to create production-ready Expo apps with TypeScript, NativeWind v4, Unistyles v3, MMKV, and more",
   "main": "dist/index.js",
   "bin": {
     "fast-expo-app": "./bin/fast-expo-app.js"
   },
   "scripts": {
-    "build": "tsc --project ../../cli/tsconfig.json && bun run copy-template && bun run copy-modules",
+    "build": "tsc --project ../../cli/tsconfig.json && bun run copy-template && bun run copy-modules && bun run clean-template",
     "copy-template": "rm -rf templates && cp -r ../../cli/templates templates",
     "copy-modules": "rm -rf modules && cp -r ../../cli/modules modules",
+    "clean-template": "find templates -type d -name 'node_modules' -prune -exec rm -rf {} + && find templates -type d -name '.expo' -prune -exec rm -rf {} + && find templates -type d -name 'Pods' -prune -exec rm -rf {} + && find templates -type d -name 'build' -prune -exec rm -rf {} + && rm -f templates/**/bun.lock templates/**/package-lock.json templates/**/yarn.lock",
     "dev": "tsc --project ../../cli/tsconfig.json --watch",
     "prepublishOnly": "bun run build",
     "publish:patch": "bun run publish.ts patch",
