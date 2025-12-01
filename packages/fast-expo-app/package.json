@@ -46,7 +46,8 @@
     "dist",
     "bin",
     "templates",
-    "modules"
+    "modules",
+    "README.md"
   ],
   "type": "module",
   "dependencies": {
