@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+@import 'uniwind';
+
+@source "../components/**/*.tsx";
+@source "./**/*.tsx";
+
+@layer theme {
+  :root {
+    @variant light {
+      --color-background: #ffffff;
+      --color-foreground: #000000;
+      --color-card: #fafafa;
+      --color-card-foreground: #000000;
+      --color-primary: #1a1a1a;
+      --color-primary-foreground: #ffffff;
+      --color-secondary: #f2f2f2;
+      --color-secondary-foreground: #000000;
+      --color-muted: #f5f5f5;
+      --color-muted-foreground: #737373;
+      --color-accent: #f5f5f5;
+      --color-accent-foreground: #000000;
+      --color-border: #e6e6e6;
+    }
+    @variant dark {
+      --color-background: #000000;
+      --color-foreground: #ffffff;
+      --color-card: #0a0a0a;
+      --color-card-foreground: #ffffff;
+      --color-primary: #e6e6e6;
+      --color-primary-foreground: #000000;
+      --color-secondary: #1a1a1a;
+      --color-secondary-foreground: #ffffff;
+      --color-muted: #171717;
+      --color-muted-foreground: #a6a6a6;
+      --color-accent: #171717;
+      --color-accent-foreground: #ffffff;
+      --color-border: #262626;
+    }
+    @variant premium {
+      --color-background: #1a0a2e;
+      --color-foreground: #f2e6ff;
+      --color-card: #2d1a47;
+      --color-card-foreground: #f2e6ff;
+      --color-primary: #b366ff;
+      --color-primary-foreground: #1a0a2e;
+      --color-secondary: #3d2266;
+      --color-secondary-foreground: #f2e6ff;
+      --color-muted: #2d1a47;
+      --color-muted-foreground: #b399cc;
+      --color-accent: #ff4da6;
+      --color-accent-foreground: #1a0a2e;
+      --color-border: #5c3380;
+    }
+  }
+}

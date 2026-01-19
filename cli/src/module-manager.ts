@@ -10,7 +10,7 @@ export interface ModuleConfig {
   hasZustand: boolean;
   hasReactQuery: boolean;
   hasDevClient: boolean;
-  styling: 'nativewind' | 'unistyles';
+  styling: 'nativewind' | 'unistyles' | 'uniwind';
 }
 
 export class ModuleManager {
@@ -73,6 +73,9 @@ export class ModuleManager {
     if (config.styling === 'unistyles') {
       return path.join(layoutPath, 'with-unistyles.tsx');
     }
+    if (config.styling === 'uniwind') {
+      return path.join(layoutPath, 'with-uniwind.tsx');
+    }
     return path.join(layoutPath, 'with-nativewind.tsx');
   }
 
@@ -85,6 +88,9 @@ export class ModuleManager {
     if (config.styling === 'unistyles') {
       return path.join(componentsPath, 'theme-toggle-unistyles.tsx');
     }
+    if (config.styling === 'uniwind') {
+      return path.join(componentsPath, 'theme-toggle-uniwind.tsx');
+    }
     return path.join(componentsPath, 'theme-toggle-nativewind.tsx');
   }
 
@@ -95,6 +101,9 @@ export class ModuleManager {
     const layoutPath = path.join(this.modulesPath, 'layout');
     if (config.styling === 'unistyles') {
       return path.join(layoutPath, 'tabs-unistyles.tsx');
+    }
+    if (config.styling === 'uniwind') {
+      return path.join(layoutPath, 'tabs-uniwind.tsx');
     }
     return path.join(layoutPath, 'tabs-nativewind.tsx');
   }
@@ -107,6 +116,9 @@ export class ModuleManager {
     if (config.styling === 'unistyles') {
       return path.join(appPath, 'index-unistyles.tsx');
     }
+    if (config.styling === 'uniwind') {
+      return path.join(appPath, 'index-uniwind.tsx');
+    }
     return path.join(appPath, 'index-nativewind.tsx');
   }
 
@@ -117,6 +129,9 @@ export class ModuleManager {
     const appPath = path.join(this.modulesPath, 'app', 'tabs');
     if (config.styling === 'unistyles') {
       return path.join(appPath, 'settings-unistyles.tsx');
+    }
+    if (config.styling === 'uniwind') {
+      return path.join(appPath, 'settings-uniwind.tsx');
     }
     return path.join(appPath, 'settings-nativewind.tsx');
   }
@@ -129,6 +144,9 @@ export class ModuleManager {
     if (config.styling === 'unistyles') {
       return path.join(appPath, '+not-found-unistyles.tsx');
     }
+    if (config.styling === 'uniwind') {
+      return path.join(appPath, '+not-found-uniwind.tsx');
+    }
     return path.join(appPath, '+not-found-nativewind.tsx');
   }
 
@@ -140,7 +158,24 @@ export class ModuleManager {
     if (config.styling === 'unistyles') {
       return path.join(appPath, 'modal-unistyles.tsx');
     }
+    if (config.styling === 'uniwind') {
+      return path.join(appPath, 'modal-uniwind.tsx');
+    }
     return path.join(appPath, 'modal-nativewind.tsx');
+  }
+
+  /**
+   * Get the container component module file path based on styling
+   */
+  getContainerModule(config: ModuleConfig): string {
+    const componentsPath = path.join(this.modulesPath, 'components');
+    if (config.styling === 'unistyles') {
+      return path.join(componentsPath, 'container.tsx');
+    }
+    if (config.styling === 'uniwind') {
+      return path.join(componentsPath, 'container-uniwind.tsx');
+    }
+    return path.join(componentsPath, 'container-nativewind.tsx');
   }
 
   /**
@@ -205,6 +240,15 @@ export class ModuleManager {
       deps['nativewind'] = '4.1.23';
     }
 
+    if (config.styling === 'uniwind') {
+      deps['uniwind'] = '1.2.4';
+      deps['tailwindcss'] = '4.1.16';
+      deps['postcss'] = '8.5.6';
+      deps['lightningcss'] = '1.30.2';
+      deps['react-native-gesture-handler'] = '2.28.0';
+      deps['react-native-keyboard-controller'] = '1.18.5';
+    }
+
     return deps;
   }
 
@@ -238,8 +282,16 @@ export class ModuleManager {
       toRemove.push('react-native-unistyles');
     }
 
+    if (config.styling !== 'uniwind') {
+      toRemove.push('uniwind');
+    }
+
     if (config.styling === 'unistyles') {
-      toRemove.push('tailwindcss'); // devDependency
+      toRemove.push('tailwindcss', 'postcss', 'lightningcss'); // devDependencies
+    }
+
+    if (config.styling === 'nativewind') {
+      toRemove.push('postcss', 'lightningcss'); // Not needed for NativeWind
     }
 
     return toRemove;

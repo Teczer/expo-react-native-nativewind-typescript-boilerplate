@@ -14,7 +14,7 @@ export async function generateProject(
     hasZustand: modules.includes('zustand'),
     hasReactQuery: modules.includes('react-query'),
     hasDevClient: modules.includes('expo-dev-client'),
-    styling: styling as 'nativewind' | 'unistyles',
+    styling: styling as 'nativewind' | 'unistyles' | 'uniwind',
   };
 
   const manager = new ModuleManager();
@@ -75,6 +75,16 @@ export async function generateProject(
     p.log.step('Generating persisted color scheme hook...');
     const hookModule = path.join(manager.modulesPath, 'lib', 'use-persisted-color-scheme.ts');
     const hookTarget = path.join(targetPath, 'lib', 'use-persisted-color-scheme.ts');
+    if (fs.existsSync(hookModule)) {
+      manager.copyModule(hookModule, hookTarget, config);
+    }
+  }
+
+  // 3c. Generate use-uniwind-theme hook for Uniwind
+  if (config.styling === 'uniwind') {
+    p.log.step('Generating Uniwind theme hook...');
+    const hookModule = path.join(manager.modulesPath, 'lib', 'use-uniwind-theme.ts');
+    const hookTarget = path.join(targetPath, 'lib', 'use-uniwind-theme.ts');
     if (fs.existsSync(hookModule)) {
       manager.copyModule(hookModule, hookTarget, config);
     }
@@ -190,6 +200,113 @@ import "expo-router/entry";
     const modalScreenModule = manager.getModalScreenModule(config);
     const modalScreenTarget = path.join(targetPath, 'app', 'modal.tsx');
     manager.copyModule(modalScreenModule, modalScreenTarget, config);
+  } else if (config.styling === 'uniwind') {
+    // Generate Uniwind configuration files
+    p.log.step('Generating Uniwind configuration...');
+    
+    // Generate uniwind-themes.ts in constants/
+    const themesModule = path.join(manager.modulesPath, 'constants', 'uniwind-themes.ts');
+    const themesTarget = path.join(targetPath, 'constants', 'uniwind-themes.ts');
+    const constantsDir = path.dirname(themesTarget);
+    if (!fs.existsSync(constantsDir)) {
+      fs.mkdirSync(constantsDir, { recursive: true });
+    }
+    manager.copyModule(themesModule, themesTarget, config);
+    
+    // Generate themes.ts for theme configs (shared with unistyles)
+    const themeConfigsModule = path.join(manager.modulesPath, 'constants', 'themes.ts');
+    const themeConfigsTarget = path.join(targetPath, 'constants', 'themes.ts');
+    if (fs.existsSync(themeConfigsModule)) {
+      manager.copyModule(themeConfigsModule, themeConfigsTarget, config);
+    }
+    
+    // Generate global.css for Uniwind in app/ folder
+    p.log.step('Generating global.css in app folder...');
+    const globalCssModule = path.join(manager.modulesPath, 'styling', 'uniwind-global.css');
+    const globalCssTarget = path.join(targetPath, 'app', 'global.css');
+    if (fs.existsSync(globalCssModule)) {
+      manager.copyModule(globalCssModule, globalCssTarget, config);
+    }
+    
+    // Remove old global.css from root if exists
+    const oldGlobalCss = path.join(targetPath, 'global.css');
+    if (fs.existsSync(oldGlobalCss)) {
+      fs.rmSync(oldGlobalCss, { force: true });
+    }
+    
+    // Remove tailwind.config.js (not needed with Tailwind v4)
+    const tailwindConfigPath = path.join(targetPath, 'tailwind.config.js');
+    if (fs.existsSync(tailwindConfigPath)) {
+      fs.rmSync(tailwindConfigPath, { force: true });
+    }
+    
+    // Generate container component for Uniwind (kebab-case)
+    p.log.step('Generating container component...');
+    const containerModule = path.join(manager.modulesPath, 'components', 'container-uniwind.tsx');
+    const containerTarget = path.join(targetPath, 'components', 'container.tsx');
+    const componentsDir = path.dirname(containerTarget);
+    if (!fs.existsSync(componentsDir)) {
+      fs.mkdirSync(componentsDir, { recursive: true });
+    }
+    manager.copyModule(containerModule, containerTarget, config);
+    
+    // Generate theme-toggle component (kebab-case)
+    const themeToggleModule = manager.getToggleThemeModule(config);
+    const themeToggleTarget = path.join(targetPath, 'components', 'theme-toggle.tsx');
+    manager.copyModule(themeToggleModule, themeToggleTarget, config);
+    
+    // Generate (tabs)/_layout.tsx
+    const tabsLayoutModule = manager.getTabsLayoutModule(config);
+    const tabsLayoutTarget = path.join(targetPath, 'app', '(tabs)', '_layout.tsx');
+    manager.copyModule(tabsLayoutModule, tabsLayoutTarget, config);
+    
+    // Generate (tabs)/index.tsx
+    const indexScreenModule = manager.getIndexScreenModule(config);
+    const indexScreenTarget = path.join(targetPath, 'app', '(tabs)', 'index.tsx');
+    manager.copyModule(indexScreenModule, indexScreenTarget, config);
+    
+    // Generate (tabs)/settings.tsx
+    const settingsScreenModule = manager.getSettingsScreenModule(config);
+    const settingsScreenTarget = path.join(targetPath, 'app', '(tabs)', 'settings.tsx');
+    manager.copyModule(settingsScreenModule, settingsScreenTarget, config);
+    
+    // Generate +not-found.tsx
+    const notFoundScreenModule = manager.getNotFoundScreenModule(config);
+    const notFoundScreenTarget = path.join(targetPath, 'app', '+not-found.tsx');
+    manager.copyModule(notFoundScreenModule, notFoundScreenTarget, config);
+    
+    // Generate modal.tsx
+    const modalScreenModule = manager.getModalScreenModule(config);
+    const modalScreenTarget = path.join(targetPath, 'app', 'modal.tsx');
+    manager.copyModule(modalScreenModule, modalScreenTarget, config);
+    
+    // Update metro.config.js for Uniwind with extraThemes
+    const metroConfigPath = path.join(targetPath, 'metro.config.js');
+    const metroConfig = `const { getDefaultConfig } = require('expo/metro-config');
+const { withUniwindConfig } = require('uniwind/metro');
+
+const config = getDefaultConfig(__dirname);
+
+module.exports = withUniwindConfig(config, {
+  cssEntryFile: './app/global.css',
+  extraThemes: ['premium'],
+});
+`;
+    fs.writeFileSync(metroConfigPath, metroConfig);
+    
+    // Update babel.config.js for Uniwind
+    const babelConfigPath = path.join(targetPath, 'babel.config.js');
+    const babelConfig = `module.exports = function (api) {
+  api.cache(true);
+  return {
+    presets: ['babel-preset-expo'],
+    plugins: [
+      'react-native-worklets/plugin',
+    ],
+  };
+};
+`;
+    fs.writeFileSync(babelConfigPath, babelConfig);
   } else {
     // Generate tabs layout for NativeWind
     const tabsLayoutModule = manager.getTabsLayoutModule(config);
@@ -298,8 +415,8 @@ import "expo-router/entry";
     fs.rmSync(oldToggleTheme, { force: true });
   }
   
-  // Only remove old Container.tsx if we're NOT using Unistyles (container is only for Unistyles)
-  if (config.styling !== 'unistyles') {
+  // Only remove old Container.tsx if we're using NativeWind (container is for Unistyles and Uniwind)
+  if (config.styling === 'nativewind') {
     const oldContainer = path.join(targetPath, 'components', 'Container.tsx');
     if (fs.existsSync(oldContainer)) {
       fs.rmSync(oldContainer, { force: true });
@@ -380,6 +497,12 @@ module.exports = config;
 };
 `;
     fs.writeFileSync(babelConfigPath, babelConfig);
+  } else if (config.styling === 'uniwind') {
+    // Remove nativewind-env.d.ts (keep tailwind.config.js and global.css - they're regenerated for Uniwind)
+    const nativewindEnv = path.join(targetPath, 'nativewind-env.d.ts');
+    if (fs.existsSync(nativewindEnv)) {
+      fs.rmSync(nativewindEnv, { force: true });
+    }
   }
   // If styling === 'nativewind', keep everything as is
 }
@@ -430,17 +553,6 @@ async function removeUnselectedModules(
     if (fs.existsSync(unistylesFile)) {
       fs.rmSync(unistylesFile, { force: true });
     }
-    // Remove index.js if it was created for Unistyles
-    const indexJsFile = path.join(targetPath, 'index.js');
-    if (fs.existsSync(indexJsFile)) {
-      const indexJsContent = fs.readFileSync(indexJsFile, 'utf-8');
-      // Only remove if it imports unistyles
-      if (indexJsContent.includes('./unistyles')) {
-        fs.rmSync(indexJsFile, { force: true });
-        // Restore package.json main to expo-router/entry
-        pkg.main = 'expo-router/entry';
-      }
-    }
     // Remove theme context if not using Unistyles
     const themeContextFile = path.join(targetPath, 'contexts', 'app-theme-context.tsx');
     if (fs.existsSync(themeContextFile)) {
@@ -454,5 +566,33 @@ async function removeUnselectedModules(
     if (fs.existsSync(breakpointsFile)) {
       fs.rmSync(breakpointsFile, { force: true });
     }
+  }
+
+  if (config.styling !== 'uniwind') {
+    // Remove uniwind-themes.ts from constants
+    const uniwindThemesFile = path.join(targetPath, 'constants', 'uniwind-themes.ts');
+    if (fs.existsSync(uniwindThemesFile)) {
+      fs.rmSync(uniwindThemesFile, { force: true });
+    }
+    // Remove use-uniwind-theme.ts from lib
+    const uniwindThemeHook = path.join(targetPath, 'lib', 'use-uniwind-theme.ts');
+    if (fs.existsSync(uniwindThemeHook)) {
+      fs.rmSync(uniwindThemeHook, { force: true });
+    }
+    // Remove global.css from app/ folder (Uniwind specific)
+    const appGlobalCss = path.join(targetPath, 'app', 'global.css');
+    if (fs.existsSync(appGlobalCss)) {
+      fs.rmSync(appGlobalCss, { force: true });
+    }
+  }
+
+  // Handle index.js cleanup for NativeWind and Uniwind (doesn't need custom entry point)
+  if (config.styling === 'nativewind' || config.styling === 'uniwind') {
+    const indexJsFile = path.join(targetPath, 'index.js');
+    if (fs.existsSync(indexJsFile)) {
+      fs.rmSync(indexJsFile, { force: true });
+    }
+    // Restore package.json main to expo-router/entry
+    pkg.main = 'expo-router/entry';
   }
 }

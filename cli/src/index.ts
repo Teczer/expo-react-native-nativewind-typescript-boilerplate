@@ -104,6 +104,11 @@ async function main() {
         label: 'Unistyles',
         hint: 'Type-safe styling solution',
       },
+      {
+        value: 'uniwind',
+        label: 'Uniwind',
+        hint: 'Tailwind + Type-safe with 3 themes',
+      },
     ],
     initialValue: 'nativewind',
   });
@@ -190,9 +195,10 @@ async function main() {
   }
 
   // Show selected options
+  const stylingLabel = styling === 'nativewind' ? 'NativeWind' : styling === 'unistyles' ? 'Unistyles' : styling === 'uniwind' ? 'Uniwind' : 'StyleSheet';
   p.note(
     [
-      `Frontend: Expo + ${styling === 'nativewind' ? 'NativeWind' : styling === 'unistyles' ? 'Unistyles' : 'StyleSheet'}`,
+      `Frontend: Expo + ${stylingLabel}`,
       `Modules: ${allModules.join(', ')}`,
       `Package Manager: ${packageManager}`,
     ].join('\n'),
