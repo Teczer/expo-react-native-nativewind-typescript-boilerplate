@@ -177,45 +177,32 @@ export class ModuleManager {
   getDependencies(config: ModuleConfig): Record<string, string> {
     const deps: Record<string, string> = {};
 
-    if (config.hasMMKV) {
-      deps['react-native-mmkv'] = '^4.0.0';
-      deps['react-native-nitro-modules'] = '^0.31.5';
-    }
-
     if (config.hasZustand) {
-      deps['zustand'] = '^5.0.2';
+      deps['zustand'] = '5.0.2';
     }
 
     if (config.hasReactQuery) {
-      deps['@tanstack/react-query'] = '^5.90.7';
+      deps['@tanstack/react-query'] = '5.90.7';
       
-      if (config.hasMMKV) {
-        deps['@tanstack/react-query-persist-client'] = '^5.90.7';
-        deps['@tanstack/query-sync-storage-persister'] = '^5.90.7';
-      }
     }
 
     if (config.hasDevClient) {
-      deps['expo-dev-client'] = '~6.0.17';
-      
-      if (config.hasMMKV && config.hasReactQuery) {
-        deps['@dev-plugins/react-native-mmkv'] = '^0.4.0';
-      }
+      deps['expo-dev-client'] = '6.0.17';
     }
 
     // Always add these dependencies
-    deps['expo-haptics'] = '~14.0.0';
-    deps['react-native-edge-to-edge'] = '^1.0.0';
-    deps['react-native-worklets'] = '^0.5.1';
+    deps['expo-haptics'] = '14.0.0';
+    deps['react-native-edge-to-edge'] = '1.0.0';
+    deps['react-native-worklets'] = '0.5.1';
 
     if (config.styling === 'unistyles') {
-      deps['react-native-unistyles'] = '^3.0.18';
-      deps['react-native-gesture-handler'] = '~2.28.0';
-      deps['react-native-keyboard-controller'] = '^1.18.5';
+      deps['react-native-unistyles'] = '3.0.21';
+      deps['react-native-gesture-handler'] = '2.28.0';
+      deps['react-native-keyboard-controller'] = '1.18.5';
     }
 
     if (config.styling === 'nativewind') {
-      deps['nativewind'] = '^4.1.23';
+      deps['nativewind'] = '4.1.23';
     }
 
     return deps;
@@ -226,10 +213,6 @@ export class ModuleManager {
    */
   getDependenciesToRemove(config: ModuleConfig): string[] {
     const toRemove: string[] = [];
-
-    if (!config.hasMMKV) {
-      toRemove.push('react-native-mmkv', 'react-native-nitro-modules');
-    }
 
     if (!config.hasZustand) {
       toRemove.push('zustand');

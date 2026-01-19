@@ -5,8 +5,6 @@ export function printBanner() {
   const bold = kleur.bold;
   const yellow = kleur.yellow;
   const green = kleur.green;
-  const magenta = kleur.magenta;
-  const blue = kleur.blue;
 
   const banner = `
 ${bold(cyan('███████╗ █████╗ ███████╗████████╗'))}
