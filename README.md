@@ -46,10 +46,10 @@ That's it! The CLI will guide you through the setup process and let you choose w
 
 **NativeWind v4** 🌊
 
-- Tailwind CSS for React Native
+- Tailwind CSS v3 for React Native
 - Utility-first CSS framework
+- 2-theme system (light/dark)
 - Dark mode with persistent storage
-- Color utilities centralized
 
 **Unistyles v3** 💎
 
@@ -58,6 +58,14 @@ That's it! The CLI will guide you through the setup process and let you choose w
 - Runtime theme switching
 - Breakpoints support
 - Better performance
+
+**Uniwind v1.2** ✨ (NEW)
+
+- Tailwind CSS v4 for React Native
+- Live theme switching with `Uniwind.setTheme()`
+- 3-theme system (light/dark/premium)
+- CSS variables for dynamic theming
+- Type-safe with auto-generated types
 
 ### 🔧 Optional Modules
 
@@ -239,19 +247,25 @@ We welcome contributions! Please see our [Contributing Guide](./docs/CONTRIBUTIN
 
 - **80+ GitHub Stars** ⭐
 - **26+ Forks** 🍴
-- **v3.0.0** - Major release with Unistyles v3 & enhanced features
+- **v3.2.0** - Added Uniwind styling with Tailwind v4
 - **Active Development** 🚀
 
-## 🆕 What's New in v3.0.0
+## 🆕 What's New in v3.2.0
 
-- ✨ **Unistyles v3** support with 3-theme system (light/dark/premium)
-- 🎨 **Choose your styling** - NativeWind v4 OR Unistyles v3
-- 💾 **MMKV mandatory** - Now included by default for better performance
-- 🎯 **Theme persistence** - Automatic theme saving with MMKV
-- 🔧 **Better architecture** - Cleaner file structure (`lib/`, `providers/`, `utils/`)
-- 🎭 **Enhanced components** - `ThemeToggle` with haptic feedback
-- 📦 **Modular system** - Conditional file generation based on choices
-- 🚀 **Performance** - Optimized with Nitro Modules and Worklets
+- ✨ **Uniwind v1.2** - New styling option with Tailwind CSS v4
+- 🎨 **3 styling choices** - NativeWind v4, Unistyles v3, or Uniwind v1.2
+- 🔄 **Live theme switching** - `Uniwind.setTheme()` for instant updates
+- 🎭 **3-theme system** - Light/Dark/Premium with CSS variables
+- 📦 **Tailwind v4** - Modern CSS-first configuration
+- 🔧 **Proper theme variants** - `@layer theme` with `@variant` blocks
+
+### v3.0.0 Highlights
+
+- ✨ **Unistyles v3** support with 3-theme system
+- 💾 **MMKV mandatory** - Included by default (~30x faster)
+- 🎯 **Theme persistence** - Automatic saving with MMKV
+- 🔧 **Better architecture** - Cleaner file structure
+- 🚀 **Performance** - Nitro Modules and Worklets
 
 ---
 

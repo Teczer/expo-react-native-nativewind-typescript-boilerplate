@@ -42,8 +42,9 @@
 
 #### Styling Options (Choose One)
 
-✅ **NativeWind v4** - Tailwind CSS for React Native with dark mode  
-✅ **Unistyles v3** - Type-safe styling with 3-theme system (light/dark/premium)
+✅ **NativeWind v4** - Tailwind CSS v3 for React Native with dark mode  
+✅ **Unistyles v3** - Type-safe styling with 3-theme system (light/dark/premium)  
+✅ **Uniwind v1.2** - Tailwind CSS v4 with live theme switching (light/dark/premium)
 
 #### Optional Modules
 
@@ -163,7 +164,38 @@ fast-expo-app-monorepo/
 
 ---
 
-## What's New in v3.0.0 🆕
+## What's New in v3.2.0 🆕
+
+### Uniwind Styling Option
+
+**Uniwind v1.2** is now available as a third styling option:
+
+- **Tailwind CSS v4** - Modern CSS-first configuration
+- **Live theme switching** - `Uniwind.setTheme()` for instant updates
+- **3-theme system** - Light/Dark/Premium with CSS variables
+- **Type-safe** - Auto-generated TypeScript types
+- **withUniwind HOC** - Wrap third-party components
+
+#### Uniwind Dependencies
+
+```json
+{
+  "uniwind": "1.2.4",
+  "tailwindcss": "4.1.16",
+  "postcss": "8.5.6",
+  "lightningcss": "1.30.2"
+}
+```
+
+#### Uniwind Configuration
+
+- `global.css` in `app/` folder with `@layer theme` + `@variant` blocks
+- `metro.config.js` uses `withUniwindConfig` with `extraThemes: ['premium']`
+- `useUniwindTheme()` hook for theme management with MMKV persistence
+
+---
+
+## What's New in v3.0.0
 
 ### Major Features
 
