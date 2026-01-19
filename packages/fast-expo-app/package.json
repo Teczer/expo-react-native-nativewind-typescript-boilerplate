@@ -1,6 +1,6 @@
 {
   "name": "fast-expo-app",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "⚡ Fast & modern CLI to create production-ready Expo apps with TypeScript, NativeWind v4, Unistyles v3, MMKV, and more",
   "main": "dist/index.js",
   "bin": {
