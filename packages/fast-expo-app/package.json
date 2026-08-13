@@ -4,7 +4,7 @@
   "description": "⚡ Fast & modern CLI to create production-ready Expo SDK 57 apps with TypeScript, NativeWind v4.2, Unistyles v3.3, Uniwind v1.10, MMKV, and more",
   "main": "dist/index.js",
   "bin": {
-    "fast-expo-app": "./bin/fast-expo-app.js"
+    "fast-expo-app": "bin/fast-expo-app.js"
   },
   "scripts": {
     "build": "tsc --project ../../cli/tsconfig.json && bun run copy-template && bun run copy-modules && bun run clean-template",
