@@ -35,23 +35,23 @@ That's it! The CLI will guide you through the setup process and let you choose w
 
 ### 🎯 Core Stack (Always Included)
 
-- ⚡ **Expo SDK 54** - Latest Expo with New Architecture enabled
-- ⚛️ **React Native 0.81** - Modern React Native with Fabric renderer
-- 🔥 **TypeScript 5.9** - Strict type-safety out of the box
-- 📁 **Expo Router v6** - File-based routing with typed routes
-- 💾 **MMKV v4** - Ultra-fast storage with Nitro Modules (~30x faster than AsyncStorage)
-- 📱 **react-native-edge-to-edge** - Modern edge-to-edge display
+- ⚡ **Expo SDK 57** - Latest Expo with New Architecture (always on)
+- ⚛️ **React Native 0.86** - Modern React Native with Fabric renderer
+- 🔥 **TypeScript 6.0** - Strict type-safety out of the box
+- 📁 **Expo Router** - File-based routing with typed routes (`expo-router/react-navigation`)
+- 💾 **MMKV v4.3** - Ultra-fast storage with Nitro Modules (~30x faster than AsyncStorage)
+- 📱 **Edge-to-edge** - Enabled by default on Android 16+
 
 ### 🎨 Styling Options (Choose One)
 
-**NativeWind v4** 🌊
+**NativeWind v4.2** 🌊
 
-- Tailwind CSS v3 for React Native
+- Tailwind CSS v3.4 for React Native
 - Utility-first CSS framework
 - 2-theme system (light/dark)
 - Dark mode with persistent storage
 
-**Unistyles v3** 💎
+**Unistyles v3.3** 💎
 
 - Type-safe styling solution
 - 3-theme system (light/dark/premium)
@@ -59,7 +59,7 @@ That's it! The CLI will guide you through the setup process and let you choose w
 - Breakpoints support
 - Better performance
 
-**Uniwind v1.2** ✨ (NEW)
+**Uniwind v1.10** ✨
 
 - Tailwind CSS v4 for React Native
 - Live theme switching with `Uniwind.setTheme()`
@@ -139,7 +139,7 @@ The landing page built with Next.js, showcasing the CLI and providing documentat
 
 ### Prerequisites
 
-- **Node.js 22+** (LTS recommended)
+- **Node.js 22.13+** (required by Expo SDK 57)
 - **Bun** (highly recommended) or npm
 - **Java 17+**
 - **Xcode** (for iOS development)
@@ -247,10 +247,20 @@ We welcome contributions! Please see our [Contributing Guide](./docs/CONTRIBUTIN
 
 - **80+ GitHub Stars** ⭐
 - **26+ Forks** 🍴
+- **v4.0.0** - Expo SDK 57, RN 0.86, Uniwind 1.10, NativeWind 4.2, Unistyles 3.3
 - **v3.2.0** - Added Uniwind styling with Tailwind v4
 - **Active Development** 🚀
 
-## 🆕 What's New in v3.2.0
+## 🆕 What's New in v4.0.0
+
+- ⚡ **Expo SDK 57** / React Native 0.86 / React 19.2
+- 🎨 **NativeWind 4.2.6**, **Unistyles 3.3.0**, **Uniwind 1.10.1**
+- 💾 **MMKV 4.3.2** + Nitro Modules 0.36.5
+- 🧭 **Expo Router** imports via `expo-router/react-navigation` (SDK 56+)
+- 🧱 **CNG** - `ios/` and `android/` are generated with `npx expo prebuild`
+- 🔧 Node.js **22.13+** required
+
+### v3.2.0 Highlights
 
 - ✨ **Uniwind v1.2** - New styling option with Tailwind CSS v4
 - 🎨 **3 styling choices** - NativeWind v4, Unistyles v3, or Uniwind v1.2

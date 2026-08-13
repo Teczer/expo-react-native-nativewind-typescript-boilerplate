@@ -94,3 +94,7 @@ logs
 # Temporary files
 tmp/
 temp/
+
+# Local CLI test apps
+test-local/
+test-local-*/

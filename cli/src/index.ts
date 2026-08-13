@@ -37,8 +37,9 @@ function copyFolderSync(from: string, to: string, basePath: string = from) {
     const toPath = path.join(to, file);
     const relativePath = path.relative(basePath, fromPath);
 
-    // Ignorer les fichiers/dossiers dans IGNORE_PATTERNS
-    if (IGNORE_PATTERNS.some((pattern) => relativePath.includes(pattern) || file === pattern)) {
+    // Ignorer les fichiers/dossiers dans IGNORE_PATTERNS (match path segments, not substrings)
+    const pathSegments = relativePath.split(path.sep);
+    if (IGNORE_PATTERNS.some((pattern) => pathSegments.includes(pattern) || file === pattern)) {
       continue;
     }
 
@@ -96,18 +97,18 @@ async function main() {
     options: [
       {
         value: 'nativewind',
-        label: 'NativeWind',
-        hint: 'Tailwind CSS for React Native',
+        label: 'NativeWind v4.2',
+        hint: 'Tailwind CSS v3 for React Native',
       },
       {
         value: 'unistyles',
-        label: 'Unistyles',
-        hint: 'Type-safe styling solution',
+        label: 'Unistyles v3.3',
+        hint: 'Type-safe styling with 3 themes',
       },
       {
         value: 'uniwind',
-        label: 'Uniwind',
-        hint: 'Tailwind + Type-safe with 3 themes',
+        label: 'Uniwind v1.10',
+        hint: 'Tailwind CSS v4 with live theme switching',
       },
     ],
     initialValue: 'nativewind',
@@ -269,13 +270,23 @@ async function main() {
   // 11. Success message
   p.outro('Project template successfully scaffolded! ✨');
 
+  const installCommand =
+    packageManager === 'bun'
+      ? 'bun install'
+      : packageManager === 'yarn'
+        ? 'yarn install'
+        : packageManager === 'pnpm'
+          ? 'pnpm install'
+          : 'npm install';
+
+  const runCommand = (script: string) =>
+    packageManager === 'npm' ? `npm run ${script}` : `${packageManager} ${script}`;
+
   const nextSteps = [
     `cd ${projectName}`,
-    installDeps
-      ? ''
-      : `${packageManager === 'bun' ? 'bun' : packageManager === 'yarn' ? 'yarn' : packageManager === 'pnpm' ? 'pnpm' : 'npm'} install`,
+    installDeps ? '' : installCommand,
     'npx expo prebuild',
-    'bun ios | bun android',
+    `${runCommand('ios')}  # or ${runCommand('android')}`,
   ]
     .filter(Boolean)
     .join('\n');

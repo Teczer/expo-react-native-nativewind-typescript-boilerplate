@@ -213,40 +213,38 @@ export class ModuleManager {
     const deps: Record<string, string> = {};
 
     if (config.hasZustand) {
-      deps['zustand'] = '5.0.2';
+      deps['zustand'] = '5.0.14';
     }
 
     if (config.hasReactQuery) {
-      deps['@tanstack/react-query'] = '5.90.7';
-      
+      deps['@tanstack/react-query'] = '5.101.4';
+      deps['@tanstack/react-query-persist-client'] = '5.101.4';
+      deps['@tanstack/query-sync-storage-persister'] = '5.101.4';
     }
 
     if (config.hasDevClient) {
-      deps['expo-dev-client'] = '6.0.17';
+      deps['expo-dev-client'] = '~57.0.11';
     }
 
     // Always add these dependencies
-    deps['expo-haptics'] = '14.0.0';
-    deps['react-native-edge-to-edge'] = '1.0.0';
-    deps['react-native-worklets'] = '0.5.1';
+    deps['expo-haptics'] = '~57.0.1';
+    deps['react-native-edge-to-edge'] = '1.8.1';
+    deps['react-native-worklets'] = '0.10.1';
+    deps['react-native-gesture-handler'] = '~2.32.0';
 
     if (config.styling === 'unistyles') {
-      deps['react-native-unistyles'] = '3.0.21';
-      deps['react-native-gesture-handler'] = '2.28.0';
-      deps['react-native-keyboard-controller'] = '1.18.5';
+      deps['react-native-unistyles'] = '3.3.0';
+      deps['react-native-keyboard-controller'] = '1.21.9';
     }
 
     if (config.styling === 'nativewind') {
-      deps['nativewind'] = '4.1.23';
+      deps['nativewind'] = '4.2.6';
     }
 
     if (config.styling === 'uniwind') {
-      deps['uniwind'] = '1.2.4';
+      deps['uniwind'] = '1.10.1';
       deps['tailwindcss'] = '4.1.16';
-      deps['postcss'] = '8.5.6';
-      deps['lightningcss'] = '1.30.2';
-      deps['react-native-gesture-handler'] = '2.28.0';
-      deps['react-native-keyboard-controller'] = '1.18.5';
+      deps['react-native-keyboard-controller'] = '1.21.9';
     }
 
     return deps;
@@ -287,11 +285,11 @@ export class ModuleManager {
     }
 
     if (config.styling === 'unistyles') {
-      toRemove.push('tailwindcss', 'postcss', 'lightningcss'); // devDependencies
+      toRemove.push('tailwindcss', 'postcss', 'lightningcss');
     }
 
     if (config.styling === 'nativewind') {
-      toRemove.push('postcss', 'lightningcss'); // Not needed for NativeWind
+      toRemove.push('postcss', 'lightningcss', 'uniwind');
     }
 
     return toRemove;

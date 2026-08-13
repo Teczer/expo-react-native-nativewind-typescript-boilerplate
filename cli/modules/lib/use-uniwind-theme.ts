@@ -22,7 +22,7 @@ const getInitialTheme = (): ThemeName => {
 
 // Apply initial theme on app start
 const initialTheme = getInitialTheme();
-Uniwind.setTheme(initialTheme as 'light' | 'dark');
+Uniwind.setTheme(initialTheme);
 
 /**
  * Hook to manage Uniwind theme with MMKV persistence
@@ -36,14 +36,13 @@ export function useUniwindTheme() {
     if (uniwindTheme && uniwindTheme !== currentTheme) {
       setCurrentTheme(uniwindTheme as ThemeName);
     }
-  }, [uniwindTheme]);
+  }, [uniwindTheme, currentTheme]);
 
   // Set and persist theme
   const setTheme = useCallback((themeName: ThemeName) => {
     mmkvStorage.setItem(THEME_KEY, themeName);
     setCurrentTheme(themeName);
-    // Use Uniwind.setTheme to change theme
-    Uniwind.setTheme(themeName as 'light' | 'dark');
+    Uniwind.setTheme(themeName);
   }, []);
 
   return {

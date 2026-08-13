@@ -1,7 +1,7 @@
 {
   "name": "fast-expo-app-monorepo",
   "private": true,
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "⚡ Fast Expo App Monorepo - Lightning-fast CLI to create production-ready React Native apps",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
     "template:android": "cd cli/templates/base && bun run android",
     "clean:cli": "cd packages/fast-expo-app && rm -rf node_modules dist",
     "clean:www": "cd www && rm -rf node_modules .next",
-    "clean:template": "cd cli/templates/base && rm -rf node_modules .expo ios/build ios/Pods android/build",
+    "clean:template": "cd cli/templates/base && rm -rf node_modules .expo ios android",
     "publish:patch": "cd packages/fast-expo-app && bun run publish:patch",
     "publish:minor": "cd packages/fast-expo-app && bun run publish:minor",
     "publish:major": "cd packages/fast-expo-app && bun run publish:major"
@@ -54,7 +54,7 @@
     "typescript": "^5.9.2"
   },
   "engines": {
-    "node": ">=18",
+    "node": ">=22.13.0",
     "bun": ">=1.0.0"
   },
   "packageManager": "bun@1.2.14",

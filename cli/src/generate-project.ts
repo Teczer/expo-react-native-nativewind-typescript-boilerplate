@@ -113,6 +113,11 @@ export async function generateProject(
     }
   });
 
+  // Uniwind uses Tailwind v4 as a runtime dependency, not the template's v3 devDependency
+  if (config.styling === 'uniwind' && pkg.devDependencies?.tailwindcss) {
+    delete pkg.devDependencies.tailwindcss;
+  }
+
   // 6. Remove modules that are not selected
   await removeUnselectedModules(modules, config, targetPath, pkg);
 
@@ -289,6 +294,7 @@ const config = getDefaultConfig(__dirname);
 
 module.exports = withUniwindConfig(config, {
   cssEntryFile: './app/global.css',
+  dtsFile: './app/uniwind-types.d.ts',
   extraThemes: ['premium'],
 });
 `;
@@ -537,10 +543,17 @@ async function removeUnselectedModules(
   }
 
   if (!modules.includes('jest')) {
-    // Removing Jest
     if (pkg.scripts?.['test']) {
       delete pkg.scripts['test'];
     }
+    if (pkg.jest) {
+      delete pkg.jest;
+    }
+    ['jest', 'jest-expo', 'react-test-renderer'].forEach((dep) => {
+      if (pkg.devDependencies?.[dep]) {
+        delete pkg.devDependencies[dep];
+      }
+    });
     const testsDir = path.join(targetPath, '__tests__');
     if (fs.existsSync(testsDir)) {
       fs.rmSync(testsDir, { recursive: true, force: true });

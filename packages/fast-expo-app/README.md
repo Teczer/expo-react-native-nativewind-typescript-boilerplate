@@ -27,15 +27,16 @@ npx fast-expo-app@latest
 The CLI will guide you through:
 
 1. 📝 Project name
-2. 🎨 Styling choice (NativeWind or Unistyles)
+2. 🎨 Styling choice (NativeWind, Unistyles, or Uniwind)
 3. 🔧 Optional modules (React Query, Zustand, Jest, etc.)
+4. 📦 Package manager + install
 
-Then just:
+Then:
 
 ```bash
 cd your-project-name
-bun install  # or npm install
-bun start    # or npm start
+npx expo prebuild
+bun ios   # or bun android
 ```
 
 ---
@@ -44,30 +45,37 @@ bun start    # or npm start
 
 ### 🎯 Core Stack (Always Included)
 
-- ⚡ **Expo SDK 54** - Latest Expo with New Architecture
-- ⚛️ **React Native 0.81** - Modern React Native with Fabric
-- 🔥 **TypeScript 5.9** - Strict type-safety
-- 📁 **Expo Router v6** - File-based routing with typed routes
-- 💾 **MMKV v4** - Ultra-fast storage (~30x faster than AsyncStorage)
-- 📱 **Edge-to-edge** - Modern display support
-- 🎭 **Animations** - React Native Reanimated + Worklets
+- ⚡ **Expo SDK 57** - Latest Expo with New Architecture
+- ⚛️ **React Native 0.86** - Modern React Native with Fabric
+- 🔥 **TypeScript 6.0** - Strict type-safety
+- 📁 **Expo Router** - File-based routing with typed routes
+- 💾 **MMKV v4.3** - Ultra-fast storage (~30x faster than AsyncStorage)
+- 📱 **Edge-to-edge** - Enabled by default on Android 16+
+- 🎭 **Animations** - React Native Reanimated 4.5 + Worklets 0.10
 
 ### 🎨 Styling Options (Choose One)
 
-#### NativeWind v4 🌊
+#### NativeWind v4.2 🌊
 
-- Tailwind CSS for React Native
+- Tailwind CSS v3.4 for React Native
 - Dark mode with MMKV persistence
 - Utility-first approach
 - Centralized color system
 
-#### Unistyles v3 💎
+#### Unistyles v3.3 💎
 
 - Type-safe styling
 - 3-theme system (light/dark/premium)
 - Runtime theme switching with MMKV persistence
 - Breakpoints support
 - Better performance
+
+#### Uniwind v1.10 ✨
+
+- Tailwind CSS v4 for React Native
+- Live theme switching with `Uniwind.setTheme()`
+- 3-theme system (light/dark/premium)
+- CSS variables and auto-generated types
 
 ### 🔧 Optional Modules
 
@@ -194,11 +202,11 @@ bun run clean          # Clear cache and restart
 
 ## 🌟 Features Comparison
 
-| Feature              | NativeWind                  | Unistyles              |
-| -------------------- | --------------------------- | ---------------------- |
-| **Styling Approach** | Utility classes             | StyleSheet API         |
-| **Type Safety**      | ⚠️ Limited                  | ✅ Full                |
-| **Themes**           | 2 (light/dark)              | 3 (light/dark/premium) |
+| Feature              | NativeWind v4.2             | Unistyles v3.3         | Uniwind v1.10          |
+| -------------------- | --------------------------- | ---------------------- | ---------------------- |
+| **Styling Approach** | Utility classes             | StyleSheet API         | Tailwind v4 classes    |
+| **Type Safety**      | ⚠️ Limited                  | ✅ Full                | ✅ Generated types     |
+| **Themes**           | 2 (light/dark)              | 3 (light/dark/premium) | 3 (light/dark/premium) |
 | **Performance**      | ✅ Good                     | ✅ Excellent           |
 | **Learning Curve**   | Easy (if you know Tailwind) | Medium                 |
 | **Bundle Size**      | Larger                      | Smaller                |
@@ -237,6 +245,7 @@ Built with:
 - [React Native](https://reactnative.dev)
 - [NativeWind](https://www.nativewind.dev)
 - [Unistyles](https://www.unistyl.es)
+- [Uniwind](https://uniwind.dev)
 - [MMKV](https://github.com/mrousavy/react-native-mmkv)
 - [TanStack Query](https://tanstack.com/query)
 - [Zustand](https://zustand-demo.pmnd.rs)

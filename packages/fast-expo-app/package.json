@@ -1,7 +1,7 @@
 {
   "name": "fast-expo-app",
-  "version": "3.3.0",
-  "description": "⚡ Fast & modern CLI to create production-ready Expo apps with TypeScript, NativeWind v4, Unistyles v3, MMKV, and more",
+  "version": "4.0.0",
+  "description": "⚡ Fast & modern CLI to create production-ready Expo SDK 57 apps with TypeScript, NativeWind v4.2, Unistyles v3.3, Uniwind v1.10, MMKV, and more",
   "main": "dist/index.js",
   "bin": {
     "fast-expo-app": "./bin/fast-expo-app.js"
@@ -27,6 +27,7 @@
     "react-native",
     "nativewind",
     "unistyles",
+    "uniwind",
     "typescript",
     "cli",
     "boilerplate",
@@ -60,6 +61,6 @@
     "typescript": "^5.9.2"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.13.0"
   }
 }

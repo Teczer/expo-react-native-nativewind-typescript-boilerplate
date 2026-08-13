@@ -52,14 +52,14 @@ bun run android
 
 ## 📚 Stack
 
-- **Expo SDK 54** with New Architecture
-- **React Native 0.81**
-- **TypeScript 5.9**
-- **NativeWind v4** (Tailwind CSS)
-- **Expo Router v6** (File-based routing)
-- **MMKV v4** (Optional - Ultra-fast storage)
-- **TanStack Query v5** (Optional - Data fetching)
-- **expo-dev-client** (Optional - Enhanced debugging)
+- **Expo SDK 57** with New Architecture
+- **React Native 0.86**
+- **TypeScript 6.0**
+- **NativeWind v4.2** / **Unistyles v3.3** / **Uniwind v1.10**
+- **Expo Router** (file-based routing)
+- **MMKV v4.3** (ultra-fast storage)
+- **TanStack Query v5** (optional)
+- **expo-dev-client** (optional)
 
 ## 📁 Structure
 
@@ -76,10 +76,10 @@ boilerplate/
 │   ├── query-client.ts # React Query config (optional)
 │   └── utils.ts        # Utility functions
 ├── assets/             # Images, fonts
-├── android/            # Android native code
-├── ios/                # iOS native code
 └── ...config files
 ```
+
+Native `ios/` and `android/` folders are generated with `npx expo prebuild`.
 
 ## 🔧 Available Scripts
 
