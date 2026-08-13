@@ -1,6 +1,8 @@
 # Changelog
 
-## [4.0.0] - 2026-08-13
+## [4.0.1] - 2026-08-13
+
+Same as 4.0.0. npm version `4.0.0` was already used (and unpublished) in December 2025, so this release ships as **4.0.1**.
 
 ### ⚡ Expo SDK 57
 

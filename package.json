@@ -1,7 +1,7 @@
 {
   "name": "fast-expo-app-monorepo",
   "private": true,
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "⚡ Fast Expo App Monorepo - Lightning-fast CLI to create production-ready React Native apps",
   "repository": {
     "type": "git",
